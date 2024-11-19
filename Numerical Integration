@@ -6,12 +6,8 @@ def simpson_integral():
     simplified_function = sp.sympify(function)
     a = float(input("Choose a lower bound: "))
     b = float(input("Choose an upper bound: "))
-    n = int(input("Enter an even number of subdivisions: "))
+    n = 1000000
     
-    if n % 2 != 0:
-        print("The number of subdivisions must be even for Simpson's Rule.")
-        return
-   
     h = (b-a)/n
     f = sp.lambdify(x, simplified_function)
     integral = f(a) + f(b)
@@ -23,5 +19,5 @@ def simpson_integral():
         else:
             integral += 4 * f(xi)
     integral *= h/3
-    print(f"{integral}")
+    print(integral)
 simpson_integral()
