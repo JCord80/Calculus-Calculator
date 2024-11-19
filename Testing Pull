@@ -3,4 +3,10 @@
 #nice UI with Tkinter
 #numerical approximation for the integrals and derivatives at ranges and points
 #basic indefinite derivatives
-#
+
+Reimannsum = 0
+for x in range(0,1500000,1):
+    y = (x/100000)**2+2*(x/100000)+9
+    Reimannsum += y*0.00001
+
+print(Reimannsum)
