@@ -2,14 +2,13 @@ import sympy as sp
 
 def simpson_integral():
     x = sp.symbols('x')
-    function = input("Enter a function of x: ")
-    simplified_function = sp.sympify(function)
+    function = sp.sympify(input("Enter a function of x: "))
     a = float(input("Choose a lower bound: "))
     b = float(input("Choose an upper bound: "))
     n = 1000000
     
     h = (b-a)/n
-    f = sp.lambdify(x, simplified_function)
+    f = sp.lambdify(x, function)
     integral = f(a) + f(b)
 
     for i in range (1, n):
