@@ -5,8 +5,8 @@
 #basic indefinite derivatives
 
 Reimannsum = 0
-for x in range(0,1500000,1):
-    y = (x/100000)**2+2*(x/100000)+9
+for x in range(1,1200000,1):
+    y = (x/100000)**2
     Reimannsum += y*0.00001
 
 print(Reimannsum)

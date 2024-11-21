@@ -19,4 +19,5 @@ def simpson_integral():
             integral += 4 * f(xi)
     integral *= h/3
     print(integral)
+
 simpson_integral()

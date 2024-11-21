@@ -1,0 +1,97 @@
+import tkinter as tk
+
+window = tk.Tk()
+window.title("ATM")
+
+def add_1():
+    amount["text"] = amount["text"]+"1"
+def add_2():
+    amount["text"] = amount["text"]+"2"
+def add_3():
+    amount["text"] = amount["text"]+"3"
+def add_4():
+    amount["text"] = amount["text"]+"4"
+def add_5():
+    amount["text"] = amount["text"]+"5"
+def add_6():
+    amount["text"] = amount["text"]+"6"
+def add_7():
+    amount["text"] = amount["text"]+"7"
+def add_8():
+    amount["text"] = amount["text"]+"8"
+def add_9():
+    amount["text"] = amount["text"]+"9"
+def add_0():
+    amount["text"] = amount["text"]+"0"
+def withdraw():
+    balance["text"] = str(float(balance["text"])-float(amount["text"]))
+    amount["text"] = ""
+def deposit():
+    balance["text"] = str(float(balance["text"])+float(amount["text"]))
+    amount["text"] = ""
+
+def sin():
+    amount["text"] = amount["text"]+"sin(x)"
+def cos():
+    amount["text"] = amount["text"]+"cos(x)"
+
+def mult():
+        amount["text"] = amount["text"]+"*"
+
+def add():
+        amount["text"] = amount["text"]+"+"
+
+def backspace(event):
+    amount["text"] = amount["text"][0:len(amount["text"])-1]
+
+def key(event):
+    if event.char.isdigit() == True:
+        amount["text"] += event.char
+        
+
+frame1 = tk.Frame(master = window)
+label = tk.Label(master = frame1,text = "Current Balance ($):")
+balance = tk.Label(master = frame1,text = "1000")
+label2 = tk.Label(master = frame1,text = "Amount ($):")
+amount = tk.Label(master = frame1,text = "")
+
+frame2 = tk.Frame(master = window)
+frame2.rowconfigure([0,1,2,3],weight = 1, minsize = 75)
+frame2.columnconfigure([0,1,2,3],weight = 1, minsize = 75)
+
+but1 = tk.Button(master = frame2, text = "1",command = add_1)
+but2 = tk.Button(master = frame2, text = "2",command = add_2)
+but3 = tk.Button(master = frame2, text = "3",command = add_3)
+but4 = tk.Button(master = frame2, text = "4",command = add_4)
+but5 = tk.Button(master = frame2, text = "5",command = add_5)
+but6 = tk.Button(master = frame2, text = "6",command = add_6)
+but7 = tk.Button(master = frame2, text = "7",command = add_7)
+but8 = tk.Button(master = frame2, text = "8",command = add_8)
+but9 = tk.Button(master = frame2, text = "9",command = add_9)
+butsin = tk.Button(master = frame2, text = "sin(x)", command = sin)
+butcos = tk.Button(master = frame2, text = "sin(x)", command = cos)
+butmult = tk.Button(master = frame2, text = "*", command  = mult)
+butadd = tk.Button(master = frame2, text = "+", command  = add)
+butw = tk.Button(master = frame2, text = "Withdrawal", command = withdraw)
+but0 = tk.Button(master = frame2, text = "0",command = add_0)
+butd = tk.Button(master = frame2, text = "Deposit",command = deposit)
+
+
+frame1.pack()
+label.pack()
+balance.pack()
+label2.pack()
+amount.pack()
+frame2.pack()
+
+b = [but1, but2, but3, butsin, but4, but5, but6, butcos, but7, but8, but9, butmult, butw, but0, butd,butadd]
+i = 0
+for k in range(4):
+    for c in range(4):
+        b[i].grid(row = k, column = c, sticky = "nsew")
+        i += 1
+
+window.bind("<BackSpace>",backspace)
+window.bind("<Key>", key)
+
+window.mainloop()
