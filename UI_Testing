@@ -5,68 +5,71 @@ window = tk.Tk()
 window.title("Calculator")
 
 def add_x():
-    amount["text"] = amount["text"]+"x"
+    expr["text"] = expr["text"]+"x"
 def add_y():
-    amount["text"] = amount["text"]+"y"
+    expr["text"] = expr["text"]+"y"
 def add_z():
-    amount["text"] = amount["text"]+"z"
-def add_a():
-    amount["text"] = amount["text"]+"a"
+    expr["text"] = expr["text"]+"z"
+def add_e():
+    expr["text"] = expr["text"]+"e"
 def add_1():
-    amount["text"] = amount["text"]+"1"
+    expr["text"] = expr["text"]+"1"
 def add_2():
-    amount["text"] = amount["text"]+"2"
+    expr["text"] = expr["text"]+"2"
 def add_3():
-    amount["text"] = amount["text"]+"3"
+    expr["text"] = expr["text"]+"3"
 def add_4():
-    amount["text"] = amount["text"]+"4"
+    expr["text"] = expr["text"]+"4"
 def add_5():
-    amount["text"] = amount["text"]+"5"
+    expr["text"] = expr["text"]+"5"
 def add_6():
-    amount["text"] = amount["text"]+"6"
+    expr["text"] = expr["text"]+"6"
 def add_7():
-    amount["text"] = amount["text"]+"7"
+    expr["text"] = expr["text"]+"7"
 def add_8():
-    amount["text"] = amount["text"]+"8"
+    expr["text"] = expr["text"]+"8"
 def add_9():
-    amount["text"] = amount["text"]+"9"
+    expr["text"] = expr["text"]+"9"
 def add_0():
-    amount["text"] = amount["text"]+"0"
+    expr["text"] = expr["text"]+"0"
 def integrate():
-    function = sp.sympify(amount["text"])
-    balance["text"] = sp.integrate(function)
-    amount["text"] = ""
-def deposit():
-    balance["text"] = str(float(balance["text"])+float(amount["text"]))
-    amount["text"] = ""
+    function = sp.sympify(expr["text"])
+    answer["text"] = sp.integrate(function)
+    expr["text"] = ""
+def differentiate():
+    if ("e") in expr["text"]:
+        expr["text"]=expr["text"].replace("e", "E")
+    function = sp.sympify(expr["text"])
+    answer["text"] = sp.diff(function)
+    expr["text"] = ""
 
 def sin():
-    amount["text"] = amount["text"]+"sin(x)"
+    expr["text"] = expr["text"]+"sin(x)"
 def cos():
-    amount["text"] = amount["text"]+"cos(x)"
+    expr["text"] = expr["text"]+"cos(x)"
 
 def mult():
-        amount["text"] = amount["text"]+"*"
+        expr["text"] = expr["text"]+"*"
 
 def add():
-        amount["text"] = amount["text"]+"+"
+        expr["text"] = expr["text"]+"+"
 
 def backspace(event):
-    amount["text"] = amount["text"][0:len(amount["text"])-1]
+    expr["text"] = expr["text"][0:len(expr["text"])-1]
 
 def key(event):
     if event.char.isdigit() == True:
-        amount["text"] += event.char
+        expr["text"] += event.char
     elif event.char == "x":
-        amount["text"] += event.char
+        expr["text"] += event.char
 
         
 
 frame1 = tk.Frame(master = window)
 label = tk.Label(master = frame1,text = "Answer:")
-balance = tk.Label(master = frame1,text = "")
+answer = tk.Label(master = frame1,text = "")
 label2 = tk.Label(master = frame1,text = "Expression:")
-amount = tk.Label(master = frame1,text = "")
+expr = tk.Label(master = frame1,text = "")
 
 frame2 = tk.Frame(master = window)
 frame2.rowconfigure([0,1,2,3],weight = 1, minsize = 75)
@@ -76,7 +79,7 @@ frame2.columnconfigure([0,1,2,3,4],weight = 1, minsize = 75)
 butx = tk.Button(master=frame2, text = "x", command = add_x)
 buty = tk.Button(master=frame2, text = "y", command = add_y)
 butz = tk.Button(master=frame2, text = "z", command = add_z)
-buta = tk.Button(master=frame2, text = "a", command = add_a)
+bute = tk.Button(master=frame2, text = "e", command = add_e)
 but1 = tk.Button(master = frame2, text = "1",command = add_1)
 but2 = tk.Button(master = frame2, text = "2",command = add_2)
 but3 = tk.Button(master = frame2, text = "3",command = add_3)
@@ -92,19 +95,19 @@ butmult = tk.Button(master = frame2, text = "*", command  = mult)
 butadd = tk.Button(master = frame2, text = "+", command  = add)
 butw = tk.Button(master = frame2, text = "Integrate", command = integrate)
 but0 = tk.Button(master = frame2, text = "0",command = add_0)
-butd = tk.Button(master = frame2, text = "Differentiate",command = deposit)
+butd = tk.Button(master = frame2, text = "Differentiate",command = differentiate)
 
 
 frame1.pack()
 label2.pack()
-amount.pack()
+expr.pack()
 label.pack()
 
-balance.pack()
+answer.pack()
 
 frame2.pack()
 
-b = [butx, but1, but2, but3, butsin, buty, but4, but5, but6, butcos,butz, but7, but8, but9, butmult,buta, butw, but0, butd, butadd]
+b = [butx, but1, but2, but3, butsin, buty, but4, but5, but6, butcos,butz, but7, but8, but9, butmult,bute, butw, but0, butd, butadd]
 i = 0
 for k in range(4):
     for c in range(5):
