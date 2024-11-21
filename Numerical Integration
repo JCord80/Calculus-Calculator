@@ -21,3 +21,4 @@ def simpson_integral():
     print(integral)
 
 simpson_integral()
+
