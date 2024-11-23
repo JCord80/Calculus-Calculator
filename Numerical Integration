@@ -1,5 +1,7 @@
+import matplotlib.pyplot as plt
+import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
 import sympy as sp
-
 def simpson_integral():
     x = sp.symbols('x')
     function = sp.sympify(input("Enter a function of x: "))
@@ -20,5 +22,17 @@ def simpson_integral():
     integral *= h/3
     print(integral)
 
-simpson_integral()
 
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+z = np.cos(x)
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
+ax.plot(x, y, z)
+
+# Set axis ranges
+ax.set_xlim(0, 5)
+ax.set_ylim(-1.5, 1.5)
+ax.set_zlim(-1, 10)
+plt.title("3D Plot with Custom Axis Ranges")
+plt.show()
