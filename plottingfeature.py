@@ -14,7 +14,7 @@ def graph():
             xmax = float(input("Greatest x-value: "))
             ymin = float(input("Least y-value: "))
             ymax = float(input("Greatest y-value: "))
-            xvals = np.linspace(a, b, 10000000)
+            xvals = np.linspace(xmin, xmax, 10000000)
             lambdified = sp.lambdify(x, function_singlevar)
             yvals = lambdified(xvals)
             plt.figure(figsize=(8, 6))
