@@ -14,11 +14,9 @@ def graph():
             b = float(input("Greatest x-value: "))
             d = float(input("Least y-value: "))
             f = float(input("Greatest y-value: "))
-
-            xvals = np.linspace(a, b)
+            xvals = np.linspace(a, b, 10000000)
             lambdified = sp.lambdify(x, function_singlevar)
             yvals = lambdified(xvals)
-
             plt.figure(figsize=(8, 6))
             plt.plot(xvals, yvals)
             plt.xlim(a, b)
@@ -28,7 +26,6 @@ def graph():
             plt.ylabel("f(x)")
             plt.grid(True)
             plt.show()
-
         if type_of_function == "2":
             function_multivar = sp.sympify(input("Enter a function of x and y: "))
             g = float(input("Least x-value: "))
@@ -37,13 +34,11 @@ def graph():
             j = float(input("Greatest y-value: "))
             k = float(input("Least z-value: "))
             l = float(input("Greatest z-value: "))
-
-            xvals = np.linspace(g, h)
-            yvals = np.linspace(i, j)
+            xvals = np.linspace(g, h, 10000)
+            yvals = np.linspace(i, j, 10000)
             xmesh, ymesh = np.meshgrid(xvals, yvals)
             lambdified = sp.lambdify((x, y), function_multivar)
             zvals = lambdified(xmesh, ymesh)
-
             fig = plt.figure(figsize=(10, 8))
             ax = fig.add_subplot(111, projection='3d')
             ax.plot_surface(xmesh, ymesh, zvals)
@@ -55,7 +50,6 @@ def graph():
             ax.set_ylabel("y")
             ax.set_zlabel("z")
             plt.show()
-
         else:
             print("You can only plot in 2 or 3 dimensions")
     if coordinates == "parametric":
