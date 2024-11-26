@@ -49,13 +49,23 @@ def cos():
     expr["text"] = expr["text"]+"cos(x)"
 
 def mult():
-        expr["text"] = expr["text"]+"*"
+    expr["text"] = expr["text"]+"*"
 
 def add():
-        expr["text"] = expr["text"]+"+"
+    expr["text"] = expr["text"]+"+"
+
+def minus():
+    expr["text"] = expr["text"]+"-"
+
+def divide():
+    expr["text"] = expr["text"]+"/"
+
+def parenthesis():
+    expr["text"] = expr["text"]+"("
 
 def backspace(event):
     expr["text"] = expr["text"][0:len(expr["text"])-1]
+
 
 def key(event):
     if event.char.isdigit() == True:
@@ -63,7 +73,20 @@ def key(event):
     elif event.char == "x":
         expr["text"] += event.char
 
-        
+def enter():
+    save = expr["text"]
+    if "x" in save:
+        print("can't evaluate")
+    else:
+        z = sp.symbols('z')
+        y = sp.sympify(save)
+        func = sp.lambdify(z,y)
+        answer["text"] = str(func(0))
+        expr["text"] = ""
+
+def clear():
+    expr["text"] = ""
+
 
 frame1 = tk.Frame(master = window)
 label = tk.Label(master = frame1,text = "Answer:")
@@ -72,7 +95,7 @@ label2 = tk.Label(master = frame1,text = "Expression:")
 expr = tk.Label(master = frame1,text = "")
 
 frame2 = tk.Frame(master = window)
-frame2.rowconfigure([0,1,2,3],weight = 1, minsize = 75)
+frame2.rowconfigure([0,1,2,3,4],weight = 1, minsize = 75)
 frame2.columnconfigure([0,1,2,3,4],weight = 1, minsize = 75)
 
 
@@ -96,7 +119,11 @@ butadd = tk.Button(master = frame2, text = "+", command  = add)
 butw = tk.Button(master = frame2, text = "Integrate", command = integrate)
 but0 = tk.Button(master = frame2, text = "0",command = add_0)
 butd = tk.Button(master = frame2, text = "Differentiate",command = differentiate)
-
+butclear = tk.Button(master = frame2, text = "Clear",command = clear)
+ent = tk.Button(master = frame2, text = "Enter", command = enter)
+butsubtr = tk.Button(master = frame2, text = "-", command = minus)
+butdiv = tk.Button(master = frame2, text = "/", command = divide)
+butparen = tk.Button(master = frame2, text = "(", command = parenthesis)
 
 frame1.pack()
 label2.pack()
@@ -107,9 +134,9 @@ answer.pack()
 
 frame2.pack()
 
-b = [butx, but1, but2, but3, butsin, buty, but4, but5, but6, butcos,butz, but7, but8, but9, butmult,bute, butw, but0, butd, butadd]
+b = [butcos, butsin, butparen, butclear, butdiv, butx, but1, but2, but3, butmult, buty, but4, but5, but6, butsubtr,butz, but7, but8, but9, butadd,bute, butw, but0, butd, ent]
 i = 0
-for k in range(4):
+for k in range(5):
     for c in range(5):
         b[i].grid(row = k, column = c, sticky = "nsew")
         i += 1
