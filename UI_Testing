@@ -4,6 +4,56 @@ import tkinter as tk
 window = tk.Tk()
 window.title("Calculator")
 
+import numpy as np
+import matplotlib.pyplot as plt
+
+def graph():
+    x, y, t, r, theta = sp.symbols('x y t r theta')
+    if "y" not in expr["text"]:
+        function_singlevar = expr["text"]
+        xmin = -10
+        xmax = 10
+        ymin = -10
+        ymax = 10
+        xvals = np.linspace(xmin, xmax, 10000000)
+        lambdified = sp.lambdify(x, function_singlevar)
+        yvals = lambdified(xvals)
+        plt.figure(figsize=(8, 6))
+        plt.plot(xvals, yvals)
+        plt.xlim(xmin, xmax)
+        plt.ylim(ymin, ymax)
+        plt.title("Graph of the Function")
+        plt.xlabel("x")
+        plt.ylabel("f(x)")
+        plt.grid(True)
+        plt.show()
+    elif "y" in expr["text"]:
+        function_multivar = expr["text"]
+        xmin = -10
+        xmax = 10
+        ymin = -10
+        ymax = 10
+        zmin = -10
+        zmax = 10
+        xvals = np.linspace(xmin, xmax, 100)
+        yvals = np.linspace(ymin, ymax, 100)
+        xmesh, ymesh = np.meshgrid(xvals, yvals)
+        lambdified = sp.lambdify((x, y), function_multivar)
+        zvals = lambdified(xmesh, ymesh)
+        fig = plt.figure(figsize=(10, 8))
+        ax = fig.add_subplot(111, projection='3d')
+        ax.plot_surface(xmesh, ymesh, zvals)
+        ax.set_xlim(xmin, xmax)
+        ax.set_ylim(ymin, ymax)
+        ax.set_zlim(zmin, zmax)
+        ax.set_xlabel("x")
+        ax.set_ylabel("y")
+        ax.set_zlabel("z")
+        plt.show()
+    else:
+        print("You can only plot in 2 or 3 dimensions")
+
+
 def add_x():
     expr["text"] = expr["text"]+"x"
 def add_y():
@@ -60,8 +110,6 @@ def minus():
 def divide():
     expr["text"] = expr["text"]+"/"
 
-def parenthesis():
-    expr["text"] = expr["text"]+"("
 
 def backspace(event):
     expr["text"] = expr["text"][0:len(expr["text"])-1]
@@ -123,7 +171,7 @@ butclear = tk.Button(master = frame2, text = "Clear",command = clear)
 ent = tk.Button(master = frame2, text = "Enter", command = enter)
 butsubtr = tk.Button(master = frame2, text = "-", command = minus)
 butdiv = tk.Button(master = frame2, text = "/", command = divide)
-butparen = tk.Button(master = frame2, text = "(", command = parenthesis)
+butgraph = tk.Button(master = frame2, text = "Graph", command = graph)
 
 frame1.pack()
 label2.pack()
@@ -134,7 +182,7 @@ answer.pack()
 
 frame2.pack()
 
-b = [butcos, butsin, butparen, butclear, butdiv, butx, but1, but2, but3, butmult, buty, but4, but5, but6, butsubtr,butz, but7, but8, but9, butadd,bute, butw, but0, butd, ent]
+b = [butcos, butsin, butgraph, butclear, butdiv, butx, but1, but2, but3, butmult, buty, but4, but5, but6, butsubtr,butz, but7, but8, but9, butadd,bute, butw, but0, butd, ent]
 i = 0
 for k in range(5):
     for c in range(5):
