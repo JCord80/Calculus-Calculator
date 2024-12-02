@@ -58,7 +58,7 @@ def add_x():
     expr["text"] = expr["text"]+"x"
 def add_y():
     expr["text"] = expr["text"]+"y"
-def add_z():
+def add_period():
     expr["text"] = expr["text"]+"z"
 def add_e():
     expr["text"] = expr["text"]+"e"
@@ -94,7 +94,102 @@ def differentiate():
     expr["text"] = ""
 
 def sin():
-    expr["text"] = expr["text"]+"sin(x)"
+    win1 = tk.Tk()
+    win1.title = "Sine window"
+
+
+    def add_x():
+        expr1["text"] = expr1["text"]+"x"
+    def add_y():
+        expr1["text"] = expr1["text"]+"y"
+    def add_period():
+        expr1["text"] = expr1["text"]+"z"
+    def add_e():
+        expr1["text"] = expr1["text"]+"e"
+    def add_1():
+        expr1["text"] = expr1["text"]+"1"
+    def add_2():
+        expr1["text"] = expr1["text"]+"2"
+    def add_3():
+        expr1["text"] = expr1["text"]+"3"
+    def add_4():
+        expr1["text"] = expr1["text"]+"4"
+    def add_5():
+        expr1["text"] = expr1["text"]+"5"
+    def add_6():
+        expr1["text"] = expr1["text"]+"6"
+    def add_7():
+        expr1["text"] = expr1["text"]+"7"
+    def add_8():
+        expr1["text"] = expr1["text"]+"8"
+    def add_9():
+        expr1["text"] = expr1["text"]+"9"
+    def add_0():
+        expr1["text"] = expr1["text"]+"0"
+    def mult():
+        expr1["text"] = expr1["text"]+"*"
+    
+    def add_pi():
+        expr1["text"] = expr1["text"]+"π"
+
+    def add():
+        expr1["text"] = expr1["text"]+"+"
+
+    def minus():
+        expr1["text"] = expr1["text"]+"-"
+
+    def divide():
+        expr1["text"] = expr1["text"]+"/"
+    def enter():
+        global save
+        save = f"sin({expr1["text"]})"
+        win1.quit()
+        win1.destroy()
+    
+    box = tk.Frame(master = win1)
+    zomb = tk.Label(master = box,text = "Input Number Inside of Sin( ):")
+    expr1 = tk.Label(master = box,text = "")
+    nums = tk.Frame(master = win1)
+
+    nums.rowconfigure([0,1,2,3,4],weight = 1, minsize = 75)
+    nums.columnconfigure([0,1,2,3],weight = 1, minsize = 75)
+
+    butx = tk.Button(master=nums, text = "x", command = add_x)
+    buty = tk.Button(master=nums, text = "y", command = add_y)
+    butperiod = tk.Button(master=nums, text = ".", command = add_period)
+    bute = tk.Button(master=nums, text = "e", command = add_e)
+    but1 = tk.Button(master = nums, text = "1",command = add_1)
+    but2 = tk.Button(master = nums, text = "2",command = add_2)
+    but3 = tk.Button(master = nums, text = "3",command = add_3)
+    but4 = tk.Button(master = nums, text = "4",command = add_4)
+    but5 = tk.Button(master = nums, text = "5",command = add_5)
+    but6 = tk.Button(master = nums, text = "6",command = add_6)
+    but7 = tk.Button(master = nums, text = "7",command = add_7)
+    but8 = tk.Button(master = nums, text = "8",command = add_8)
+    but9 = tk.Button(master = nums, text = "9",command = add_9)
+    but0 = tk.Button(master = nums, text = "0",command = add_0)
+    butsubtr = tk.Button(master = nums, text = "-", command = minus)
+    butdiv = tk.Button(master = nums, text = "/", command = divide)
+    butmult = tk.Button(master = nums, text = "*", command  = mult)
+    butadd = tk.Button(master = nums, text = "+", command  = add)
+    butpi = tk.Button(master = nums,text = "π",command = add_pi)
+    butenter = tk.Button(master = nums, text = "Enter",command = enter)
+
+    box.pack()
+    zomb.pack()
+    expr1.pack()
+    nums.pack()
+
+    b = [butx,buty,butperiod,bute,but1,but2,but3,but4,but5,but6,but7,but8,but9,but0,butsubtr,butdiv,butmult,butadd,butpi,butenter]
+    i = 0
+    for k in range(5):
+        for c in range(4):
+            b[i].grid(row = k, column = c, sticky = "nsew")
+            i += 1
+    
+    win1.mainloop()
+    expr["text"] = expr["text"]+ save
+
 def cos():
     expr["text"] = expr["text"]+"cos(x)"
 
@@ -124,7 +219,7 @@ def key(event):
 def enter():
     save = expr["text"]
     if "x" in save:
-        print("can't evaluate")
+        answer["text"] = "Can't Evaluate"
     else:
         z = sp.symbols('z')
         y = sp.sympify(save)
@@ -149,7 +244,7 @@ frame2.columnconfigure([0,1,2,3,4],weight = 1, minsize = 75)
 
 butx = tk.Button(master=frame2, text = "x", command = add_x)
 buty = tk.Button(master=frame2, text = "y", command = add_y)
-butz = tk.Button(master=frame2, text = "z", command = add_z)
+butperiod = tk.Button(master=frame2, text = ".", command = add_period)
 bute = tk.Button(master=frame2, text = "e", command = add_e)
 but1 = tk.Button(master = frame2, text = "1",command = add_1)
 but2 = tk.Button(master = frame2, text = "2",command = add_2)
@@ -180,14 +275,19 @@ label.pack()
 
 answer.pack()
 
-frame2.pack()
+frame2.pack(side = tk.LEFT)
+frame3 = tk.Frame(master = window,height = 75, width = 100)
+frame3.pack(side=tk.LEFT)
 
-b = [butcos, butsin, butgraph, butclear, butdiv, butx, but1, but2, but3, butmult, buty, but4, but5, but6, butsubtr,butz, but7, but8, but9, butadd,bute, butw, but0, butd, ent]
+
+b = [butcos, butsin, butgraph, butclear, butdiv, butx, but1, but2, but3, butmult, buty, but4, but5, but6, butsubtr,butperiod, but7, but8, but9, butadd,bute, butw, but0, butd, ent]
 i = 0
 for k in range(5):
     for c in range(5):
         b[i].grid(row = k, column = c, sticky = "nsew")
         i += 1
+
+
 
 window.bind("<BackSpace>",backspace)
 window.bind("<Key>", key)
