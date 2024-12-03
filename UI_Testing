@@ -7,7 +7,26 @@ window.title("Calculator")
 import numpy as np
 import matplotlib.pyplot as plt
 
+frame3 = tk.Frame(master = window,height = 75, width = 100)
+label3 = tk.Label(master = frame3)
+
+class hist(tk.Label):
+    def __init__(self, expression,answer):
+        self.expression = expression
+        self.answer = answer
+
+    def pack(self):
+        self.label1 = tk.Label(master = frame3, text = f"{self.expression}")
+        self.label2 = tk.Label(master = frame3, text = f"{self.answer}")        
+        self.label1.pack()
+        self.label2.pack()
+
 def graph():
+    if ("e") in expr["text"]:
+        expr["text"]=expr["text"].replace("e", "E")
+    if "π" in expr["text"]:
+        expr["text"]=expr["text"].replace("π","pi")
+
     x, y, t, r, theta = sp.symbols('x y t r theta')
     if "y" not in expr["text"]:
         function_singlevar = expr["text"]
@@ -83,6 +102,9 @@ def add_9():
 def add_0():
     expr["text"] = expr["text"]+"0"
 def integrate():
+    winint = tk.Tk()
+
+
     function = sp.sympify(expr["text"])
     answer["text"] = sp.integrate(function)
     expr["text"] = ""
@@ -217,6 +239,10 @@ def key(event):
         expr["text"] += event.char
 
 def enter():
+    if ("e") in expr["text"]:
+        expr["text"]=expr["text"].replace("e", "E")
+    if "π" in expr["text"]:
+        expr["text"]=expr["text"].replace("π","pi")
     save = expr["text"]
     if "x" in save:
         answer["text"] = "Can't Evaluate"
@@ -224,8 +250,10 @@ def enter():
         z = sp.symbols('z')
         y = sp.sympify(save)
         func = sp.lambdify(z,y)
-        answer["text"] = str(func(0))
+        answer["text"] = str(func(1))
         expr["text"] = ""
+        history = hist(save,answer["text"])
+        history.pack()
 
 def clear():
     expr["text"] = ""
@@ -276,8 +304,10 @@ label.pack()
 answer.pack()
 
 frame2.pack(side = tk.LEFT)
-frame3 = tk.Frame(master = window,height = 75, width = 100)
+
+
 frame3.pack(side=tk.LEFT)
+
 
 
 b = [butcos, butsin, butgraph, butclear, butdiv, butx, but1, but2, but3, butmult, buty, but4, but5, but6, butsubtr,butperiod, but7, but8, but9, butadd,bute, butw, but0, butd, ent]
