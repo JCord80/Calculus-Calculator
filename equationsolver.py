@@ -20,8 +20,8 @@ def system():
         equations.append(sp.sympify(eq))
     solutions = sp.solve(equations, variables)
     if solutions: 
-        for var in solutions:
+        for i in solutions:
             print(f"{variables}={solutions[variables]}")
-        else:
-            print("No solutions")
+    else:
+        print("No solutions")
 system()
