@@ -103,11 +103,106 @@ def add_0():
     expr["text"] = expr["text"]+"0"
 def integrate():
     winint = tk.Tk()
+    winint.title("Integrate")
+    
+    def add_x():
+        expr1["text"] = expr1["text"]+"x"
+    def add_y():
+        expr1["text"] = expr1["text"]+"y"
+    def add_period():
+        expr1["text"] = expr1["text"]+"z"
+    def add_e():
+        expr1["text"] = expr1["text"]+"e"
+    def add_1():
+        expr1["text"] = expr1["text"]+"1"
+    def add_2():
+        expr1["text"] = expr1["text"]+"2"
+    def add_3():
+        expr1["text"] = expr1["text"]+"3"
+    def add_4():
+        expr1["text"] = expr1["text"]+"4"
+    def add_5():
+        expr1["text"] = expr1["text"]+"5"
+    def add_6():
+        expr1["text"] = expr1["text"]+"6"
+    def add_7():
+        expr1["text"] = expr1["text"]+"7"
+    def add_8():
+        expr1["text"] = expr1["text"]+"8"
+    def add_9():
+        expr1["text"] = expr1["text"]+"9"
+    def add_0():
+        expr1["text"] = expr1["text"]+"0"
+    def mult():
+        expr1["text"] = expr1["text"]+"*"
+    
+    def add_pi():
+        expr1["text"] = expr1["text"]+"π"
 
+    def add():
+        expr1["text"] = expr1["text"]+"+"
 
-    function = sp.sympify(expr["text"])
-    answer["text"] = sp.integrate(function)
-    expr["text"] = ""
+    def minus():
+        expr1["text"] = expr1["text"]+"-"
+
+    def divide():
+        expr1["text"] = expr1["text"]+"/"
+    def enter():
+        global save
+        save = f"sin({expr1["text"]})"
+        winint.quit()
+        winint.destroy()
+    
+    box = tk.Frame(master = winint,height = 120, width = 300)
+    intbox = tk.Label(master = box, text = "∫", bg = "yellow")
+    intbox.config(font = ("TkDefaultFont", 50))
+
+    zomb = tk.Label(master = box,text = "David", bg = "blue")
+    expr1 = tk.Label(master = box,text = "John",bg = "red")
+    nums = tk.Frame(master = winint)
+
+    nums.rowconfigure([0,1,2,3,4],weight = 1, minsize = 75)
+    nums.columnconfigure([0,1,2,3],weight = 1, minsize = 75)
+
+    butx = tk.Button(master=nums, text = "x", command = add_x)
+    buty = tk.Button(master=nums, text = "y", command = add_y)
+    butperiod = tk.Button(master=nums, text = ".", command = add_period)
+    bute = tk.Button(master=nums, text = "e", command = add_e)
+    but1 = tk.Button(master = nums, text = "1",command = add_1)
+    but2 = tk.Button(master = nums, text = "2",command = add_2)
+    but3 = tk.Button(master = nums, text = "3",command = add_3)
+    but4 = tk.Button(master = nums, text = "4",command = add_4)
+    but5 = tk.Button(master = nums, text = "5",command = add_5)
+    but6 = tk.Button(master = nums, text = "6",command = add_6)
+    but7 = tk.Button(master = nums, text = "7",command = add_7)
+    but8 = tk.Button(master = nums, text = "8",command = add_8)
+    but9 = tk.Button(master = nums, text = "9",command = add_9)
+    but0 = tk.Button(master = nums, text = "0",command = add_0)
+    butsubtr = tk.Button(master = nums, text = "-", command = minus)
+    butdiv = tk.Button(master = nums, text = "/", command = divide)
+    butmult = tk.Button(master = nums, text = "*", command  = mult)
+    butadd = tk.Button(master = nums, text = "+", command  = add)
+    butpi = tk.Button(master = nums,text = "π",command = add_pi)
+    butenter = tk.Button(master = nums, text = "Enter",command = enter)
+
+    box.pack()
+    intbox.place(x = 45, y = 15)
+    zomb.place(x = 20, y = 80)
+    expr1.place(x = 55, y = 0)
+    nums.pack()
+
+    b = [butx,buty,butperiod,bute,but1,but2,but3,but4,but5,but6,but7,but8,but9,but0,butsubtr,butdiv,butmult,butadd,butpi,butenter]
+    i = 0
+    for k in range(5):
+        for c in range(4):
+            b[i].grid(row = k, column = c, sticky = "nsew")
+            i += 1
+    
+    winint.mainloop()
+
+    # function = sp.sympify(expr["text"])
+    # answer["text"] = sp.integrate(function)
+    # expr["text"] = ""
 def differentiate():
     if ("e") in expr["text"]:
         expr["text"]=expr["text"].replace("e", "E")
