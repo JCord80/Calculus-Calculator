@@ -11,7 +11,7 @@ def graph():
         if type_of_function == "1":
             function_singlevar = sp.sympify(input("Enter a function of x: "))
             xmin = float(input("Least x-value: "))
-            xmax = float(input("Greatest x-value: "))
+            xmax = float(input("Greatest x-value: "))  
             ymin = float(input("Least y-value: "))
             ymax = float(input("Greatest y-value: "))
             xvals = np.linspace(xmin, xmax, 10000000)
@@ -78,7 +78,7 @@ def graph():
     if coordinates == "polar":
         rexpression = sp.sympify(input("r="))
         rfunction = sp.lambdify(theta, rexpression)
-        thetavals = np.linspace(0, 12 * np.pi, 10000)
+        thetavals = np.linspace(0, 100 * np.pi, 10000)
         rvals = rfunction(thetavals)
         xvals = rvals * np.cos(thetavals)
         yvals = rvals * np.sin(thetavals)
