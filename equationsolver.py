@@ -9,8 +9,7 @@ def equationsolver():
         print(solution)
     else:
         print("No solution")
-
-
+equationsolver()
 def system():
     variables = sp.symbols(input("Variables: "))
     number = int(input("How many equations would you like to solve? "))
@@ -24,4 +23,3 @@ def system():
             print(f"{variables}={solutions[variables]}")
     else:
         print("No solutions")
-system()
