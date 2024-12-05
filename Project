@@ -1,0 +1,585 @@
+import sympy as sp
+import tkinter as tk
+
+window = tk.Tk()
+window.title("Calculator")
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+#This creates the history class
+class hist(tk.Label):
+    def __init__(self, expression,answer):
+        self.expression = expression
+        self.answer = answer
+
+    def pack(self):
+        self.label1 = tk.Label(master = frame3, text = f"{self.expression}",bg = "white",height = 3, width = 14)
+        self.label2 = tk.Label(master = frame3, text = f"{self.answer}", bg = "white",height = 3, width = 14)        
+        self.label1.pack()
+        self.label2.pack()
+
+#Small Main-window Buttons
+def add_x():
+    expr["text"] = expr["text"]+"x"
+def add_y():
+    expr["text"] = expr["text"]+"y"
+def add_period():
+    expr["text"] = expr["text"]+"z"
+def add_e():
+    expr["text"] = expr["text"]+"e"
+def add_1():
+    expr["text"] = expr["text"]+"1"
+def add_2():
+    expr["text"] = expr["text"]+"2"
+def add_3():
+    expr["text"] = expr["text"]+"3"
+def add_4():
+    expr["text"] = expr["text"]+"4"
+def add_5():
+    expr["text"] = expr["text"]+"5"
+def add_6():
+    expr["text"] = expr["text"]+"6"
+def add_7():
+    expr["text"] = expr["text"]+"7"
+def add_8():
+    expr["text"] = expr["text"]+"8"
+def add_9():
+    expr["text"] = expr["text"]+"9"
+def add_0():
+    expr["text"] = expr["text"]+"0"
+def parenleft():
+    expr["text"] = expr["text"]+"("
+def mult():
+    expr["text"] = expr["text"]+"*"
+def add():
+    expr["text"] = expr["text"]+"+"
+def minus():
+    expr["text"] = expr["text"]+"-"
+def divide():
+    expr["text"] = expr["text"]+"/"
+def backspace(event):
+    expr["text"] = expr["text"][0:len(expr["text"])-1]
+def clear():
+    expr["text"] = ""
+
+#Mid-size main calc buttons
+def key(event):
+    if event.char.isdigit() == True:
+        expr["text"] += event.char
+    elif event.char == "x":
+        expr["text"] += event.char
+
+def differentiate():
+    if ("e") in expr["text"]:
+        expr["text"]=expr["text"].replace("e", "E")
+    function = sp.sympify(expr["text"])
+    answer["text"] = sp.diff(function)
+    expr["text"] = ""
+
+def solve():
+    x = sp.symbols('x')
+    equation = sp.Eq(expr["text"], 0)
+    solution = sp.solve(equation, x)
+    if solution:
+        expr["text"]=solution
+        history = hist(equation,solution)
+        history.pack()
+    else:
+        print("No solution")
+
+def enter():
+    if ("e") in expr["text"]:
+        expr["text"]=expr["text"].replace("e", "E")
+    if "π" in expr["text"]:
+        expr["text"]=expr["text"].replace("π","pi")
+    save = expr["text"]
+    if "x" in save:
+        answer["text"] = "Can't Evaluate"
+    else:
+        z = sp.symbols('z')
+        y = sp.sympify(save)
+        func = sp.lambdify(z,y)
+        answer["text"] = str(func(1))
+        expr["text"] = ""
+        history = hist(save,answer["text"])
+        history.pack()
+
+def variables():
+
+    def polar():
+        global var
+        var = "θ"
+    def carte():
+        global var
+        var = "x"
+    def carte3d():
+        global var
+        var = "y"
+    def entervar():
+        global expr
+        expr["text"]=expr["text"]+var
+        win4.destroy()
+
+    win4 = tk.Tk()
+
+    theta = tk.Button(master = win4,text = "θ",command = polar, height = 10, width = 10)
+    cartesian = tk.Button(master = win4, text = "x", command = carte, height = 10, width = 10)
+    threeD = tk.Button(master = win4, text="y",command = carte3d, height = 10, width = 10)
+    entervariable = tk.Button(master = win4, text = "Enter",command = entervar, height = 5, width = 5)
+
+    theta.pack(side = tk.LEFT)
+    cartesian.pack(side = tk.LEFT)
+    threeD.pack(side = tk.RIGHT)
+    entervariable.pack(side = tk.BOTTOM)
+
+    win4.mainloop()
+
+#This is the button with math functions
+def Functions():
+    win1 = tk.Tk()
+    win1.title = "Function"
+
+    def sin():
+        global saved
+        saved = "sin("
+    def cos():
+        global saved
+        saved = "cos("
+    def arcsin():
+        global saved
+        saved = "arcsin("
+    def tan():
+        global saved
+        saved = "tan("
+    def arccos():
+        global saved
+        saved = "arccos("
+    def arctan():
+        global saved
+        saved = "arctan("
+    def ln():
+        global saved
+        saved = "ln("
+    def log():
+        global saved
+        saved = "log("
+    def enter():
+        global expr
+        expr["text"]=expr["text"]+saved
+        win1.destroy()
+
+    nums = tk.Frame(master = win1)
+
+    nums.rowconfigure([0,1,2],weight = 1, minsize = 75)
+    nums.columnconfigure([0,1,2],weight = 1, minsize = 75)
+
+    butsin = tk.Button(master=nums, text = "sin", command = sin)
+    butcos = tk.Button(master=nums, text = "cos", command = cos)
+    butarcsin = tk.Button(master=nums, text = "arcsin", command = arcsin)
+    butarccos = tk.Button(master=nums, text = "arccos", command = arccos)
+    buttan = tk.Button(master = nums, text = "tan",command = tan)
+    butarctan = tk.Button(master = nums, text = "arctan",command = arctan)
+    butln = tk.Button(master = nums, text = "ln",command = ln)
+    butlog = tk.Button(master = nums, text = "log",command = log)
+    butent = tk.Button(master = nums, text="enter",command = enter)
+    
+    nums.pack()
+
+    b = [butsin, butcos,butarcsin,butarccos,buttan,butarctan,butln,butlog,butent]
+    i = 0
+    for k in range(3):
+        for c in range(3):
+            b[i].grid(row = k, column = c, sticky = "nsew")
+            i += 1
+    
+    win1.mainloop()
+
+#Graph Button Code
+
+def graph():
+
+    if ("e") in expr["text"]:
+        expr["text"]=expr["text"].replace("e", "E")
+    if "π" in expr["text"]:
+        expr["text"]=expr["text"].replace("π","pi")
+
+    x, y, t, r, θ = sp.symbols('x y t r θ')
+    
+#doesnt work quite right yet
+
+    # def input():
+    #     nonlocal xmin, xmax, ymin, ymax, zmin, zmax
+    #     xmin = entrya.get()
+    #     xmax = entryb.get()
+    #     ymin = entryc.get()
+    #     ymax = entryd.get()
+    #     if "z" in expr["text"]:
+    #         zmin = entrye.get()
+    #         zmax = entryf.get() 
+
+    # bounds = tk.Tk()
+    # entrya = tk.Entry(master = bounds, text = "Least x Value")
+    # entryb = tk.Entry(master = bounds, text = "Greatest x Value")
+    # entryc = tk.Entry(master = bounds, text = "Least y Value")
+    # entryd = tk.Entry(master = bounds, text = "Greatest y Value")
+    # if "z" in expr["text"]:
+    #     entrye = tk.Entry(master = bounds, text = "Least z Value")
+    #     entryf = tk.Entry(master = bounds, text = "Greatest z Value")
+    # inputb = tk.Button(master = bounds, text = "Enter", command = input)
+
+    # entrya.pack()
+    # entryb.pack()
+    # entryc.pack()
+    # entryd.pack()
+    # if "z" in expr["text"]:
+    #     entrye.pack()
+    #     entryf.pack()
+    # inputb.pack()
+    
+    # bounds.mainloop()
+
+    if ("y" not in expr["text"]) and ("θ" not in expr["text"]):
+        function_singlevar = expr["text"]
+        xmin = -10
+        xmax = 10
+        ymin = -10
+        ymax = 10
+        xvals = np.linspace(xmin, xmax, 10000000)
+        lambdified = sp.lambdify(x, function_singlevar)
+        yvals = lambdified(xvals)
+        plt.figure(figsize=(8, 6))
+        plt.plot(xvals, yvals)
+        plt.xlim(xmin, xmax)
+        plt.ylim(ymin, ymax)
+        plt.title("Graph of the Function")
+        plt.xlabel("x")
+        plt.ylabel("f(x)")
+        plt.grid(True)
+        plt.show()
+    elif ("y" in expr["text"]) and ("x" in expr["text"]) and ("θ" not in expr["text"]):
+        function_multivar = expr["text"]
+        xmin = -10
+        xmax = 10
+        ymin = -10
+        ymax = 10
+        zmin = -10
+        zmax = 10
+        xvals = np.linspace(xmin, xmax, 100)
+        yvals = np.linspace(ymin, ymax, 100)
+        xmesh, ymesh = np.meshgrid(xvals, yvals)
+        lambdified = sp.lambdify((x, y), function_multivar)
+        zvals = lambdified(xmesh, ymesh)
+        fig = plt.figure(figsize=(10, 8))
+        ax = fig.add_subplot(111, projection='3d')
+        ax.plot_surface(xmesh, ymesh, zvals)
+        ax.set_xlim(xmin, xmax)
+        ax.set_ylim(ymin, ymax)
+        ax.set_zlim(zmin, zmax)
+        ax.set_xlabel("x")
+        ax.set_ylabel("y")
+        ax.set_zlabel("z")
+        plt.show()
+    elif ("y" not in expr["text"]) and ("x" not in expr["text"]) and ("θ" in expr["text"]):
+        rexpression = sp.sympify(expr["text"])
+        rfunction = sp.lambdify(θ, rexpression)
+        θvals = np.linspace(0, 100 * np.pi, 10000)
+        rvals = rfunction(θvals)
+        xvals = rvals * np.cos(θvals)
+        yvals = rvals * np.sin(θvals)
+        xmin = float(input("Least x-value: "))
+        xmax = float(input("Greatest x-value: "))
+        ymin = float(input("Least y-value: "))
+        ymax = float(input("Greatest y-value: "))
+        plt.figure(figsize=(10, 10))
+        plt.plot(xvals, yvals)
+        plt.xlim(xmin, xmax)
+        plt.ylim(ymin, ymax)
+        plt.xlabel('x')
+        plt.ylabel('y')
+        plt.grid(True)
+        plt.show()  
+    else:
+        answer["text"] = "Can't graph with unmatched vars or error"      
+
+#Integrate Function, easily the largest
+
+def integrate():
+    winint = tk.Tk()
+    winint.title("Integrate")
+    
+    def add_x():
+        expr1["text"] = expr1["text"]+"x"
+    def add_y():
+        expr1["text"] = expr1["text"]+"y"
+    def add_period():
+        expr1["text"] = expr1["text"]+"z"
+    def add_e():
+        expr1["text"] = expr1["text"]+"e"
+    def add_1():
+        expr1["text"] = expr1["text"]+"1"
+    def add_2():
+        expr1["text"] = expr1["text"]+"2"
+    def add_3():
+        expr1["text"] = expr1["text"]+"3"
+    def add_4():
+        expr1["text"] = expr1["text"]+"4"
+    def add_5():
+        expr1["text"] = expr1["text"]+"5"
+    def add_6():
+        expr1["text"] = expr1["text"]+"6"
+    def add_7():
+        expr1["text"] = expr1["text"]+"7"
+    def add_8():
+        expr1["text"] = expr1["text"]+"8"
+    def add_9():
+        expr1["text"] = expr1["text"]+"9"
+    def add_0():
+        expr1["text"] = expr1["text"]+"0"
+    def mult():
+        expr1["text"] = expr1["text"]+"*"
+    def add_pi():
+        expr1["text"] = expr1["text"]+"π"
+    def add():
+        expr1["text"] = expr1["text"]+"+"
+    def minus():
+        expr1["text"] = expr1["text"]+"-"
+    def divide():
+        expr1["text"] = expr1["text"]+"/"
+    def parenleft():
+        expr1["text"] = expr1["text"]+"("
+    def parenright():
+        expr1["text"] = expr1["text"]+")"
+
+    def enter():
+        if bound1["text"].isdigit() == True: 
+            x = sp.symbols('x')
+            function = sp.sympify(expr1["text"])
+            global answer
+            answer["text"] = sp.integrate(function,(x,bound1["text"],bound2["text"]))
+            history = hist(expr1["text"],answer["text"])
+            history.pack()
+            winint.quit()
+            winint.destroy()
+        else:
+            x = sp.symbols('x')
+            function = sp.sympify(expr1["text"])
+            answer["text"] = sp.integrate(function)
+            history = hist(expr1["text"],answer["text"])
+            history.pack()
+            winint.quit()
+            winint.destroy()
+
+    def bound():
+        def lower():
+            x = entrya.get()
+            bound1["text"] = x
+        def upper():
+            x = entryb.get()
+            bound2["text"] = x
+        bounda = tk.Tk()
+        entrya = tk.Entry(master = bounda, text = "Lower Bound:")
+        inputa = tk.Button(master = bounda, text = "Enter", command = lower)
+
+        entryb = tk.Entry(master = bounda, text = "Upper Bound:")
+        inputb = tk.Button(master = bounda, text = "Enter", command = upper)
+
+        entrya.pack()
+        inputa.pack()
+        entryb.pack()
+        inputb.pack()
+        bounda.mainloop()
+
+    def Functions():
+        win1 = tk.Tk()
+        win1.title = "Function"
+
+        def sin():
+            global saved
+            saved = "sin("
+        def cos():
+            global saved
+            saved = "cos("
+        def arcsin():
+            global saved
+            saved = "arcsin("
+        def tan():
+            global saved
+            saved = "tan("
+        def arccos():
+            global saved
+            saved = "arccos("
+        def arctan():
+            global saved
+            saved = "arctan("
+        def ln():
+            global saved
+            saved = "ln("
+        def log():
+            global saved
+            saved = "log("
+        def enter():
+            expr1["text"]=expr1["text"]+saved
+
+        nums = tk.Frame(master = win1)
+
+        nums.rowconfigure([0,1,2],weight = 1, minsize = 75)
+        nums.columnconfigure([0,1,2],weight = 1, minsize = 75)
+
+        butsin = tk.Button(master=nums, text = "sin", command = sin)
+        butcos = tk.Button(master=nums, text = "cos", command = cos)
+        butarcsin = tk.Button(master=nums, text = "arcsin", command = arcsin)
+        butarccos = tk.Button(master=nums, text = "arccos", command = arccos)
+        buttan = tk.Button(master = nums, text = "tan",command = tan)
+        butarctan = tk.Button(master = nums, text = "arctan",command = arctan)
+        butln = tk.Button(master = nums, text = "ln",command = ln)
+        butlog = tk.Button(master = nums, text = "log",command = log)
+        butent = tk.Button(master = nums, text="enter",command = enter)
+        
+        nums.pack()
+
+        b = [butsin, butcos,butarcsin,butarccos,buttan,butarctan,butln,butlog,butent]
+        i = 0
+        for k in range(3):
+            for c in range(3):
+                b[i].grid(row = k, column = c, sticky = "nsew")
+                i += 1
+        
+        win1.mainloop()
+    
+
+#Frames and Buttons for Integrate Feature
+
+    box = tk.Frame(master = winint,height = 120, width = 300)
+    intbox = tk.Label(master = box, text = "∫")
+    intbox.config(font = ("TkDefaultFont", 50))
+
+    bound1 = tk.Label(master = box,text = "")
+    bound2 = tk.Label(master = box, text = "")
+    expr1 = tk.Label(master = box,text = "")
+    expr1.config(font = ("TkDefaultFont", 17))
+
+    nums = tk.Frame(master = winint)
+
+    nums.rowconfigure([0,1,2,3,4,5],weight = 1, minsize = 75)
+    nums.columnconfigure([0,1,2,3],weight = 1, minsize = 75)
+
+
+    butx = tk.Button(master=nums, text = "x", command = add_x)
+    buty = tk.Button(master=nums, text = "y", command = add_y)
+    butperiod = tk.Button(master=nums, text = ".", command = add_period)
+    bute = tk.Button(master=nums, text = "e", command = add_e)
+    but1 = tk.Button(master = nums, text = "1",command = add_1)
+    but2 = tk.Button(master = nums, text = "2",command = add_2)
+    but3 = tk.Button(master = nums, text = "3",command = add_3)
+    but4 = tk.Button(master = nums, text = "4",command = add_4)
+    but5 = tk.Button(master = nums, text = "5",command = add_5)
+    but6 = tk.Button(master = nums, text = "6",command = add_6)
+    but7 = tk.Button(master = nums, text = "7",command = add_7)
+    but8 = tk.Button(master = nums, text = "8",command = add_8)
+    but9 = tk.Button(master = nums, text = "9",command = add_9)
+    but0 = tk.Button(master = nums, text = "0",command = add_0)
+    butsubtr = tk.Button(master = nums, text = "-", command = minus)
+    butdiv = tk.Button(master = nums, text = "/", command = divide)
+    butmult = tk.Button(master = nums, text = "*", command  = mult)
+    butadd = tk.Button(master = nums, text = "+", command  = add)
+    butpi = tk.Button(master = nums,text = "π",command = add_pi)
+    butenter = tk.Button(master = nums, text = "Enter",command = enter)
+    butbounds = tk.Button(master = nums, text = "Bounds",command = bound)
+    butfunc = tk.Button(master = nums, text = "Functions",command = Functions)
+    butparenleft = tk.Button(master = nums, text = "(",command = parenleft)
+    butparenright = tk.Button(master = nums, text = ")",command = parenright)
+
+    box.pack()
+    intbox.place(x = 45, y = 20)
+    bound1.place(x = 30, y = 75)
+    bound2.place(x = 69, y = 10)
+    expr1.place(x = 80, y = 40)
+    
+    nums.pack()
+
+#grid tkinter code for integrate window
+    b = [butx,buty,butperiod,bute,but1,but2,but3,but4,but5,but6,but7,but8,but9,but0,butsubtr,butdiv,butmult,butadd,butpi,butenter,butbounds,butfunc,butparenleft,butparenright]
+    i = 0
+    for k in range(6):
+        for c in range(4):
+            b[i].grid(row = k, column = c, sticky = "nsew")
+            i += 1
+    
+    winint.mainloop()
+
+#These are the organizer Frames for the main window
+frameleft = tk.Frame(master = window)
+frameright = tk.Frame(master = window)
+
+#These are the sub-frames with data
+frame1 = tk.Frame(master = frameleft)
+frame2 = tk.Frame(master = frameleft)
+frame3 = tk.Frame(master = frameright, width = 14)
+
+#These are the labels in the sub-frames
+label = tk.Label(master = frame1,text = "Answer:")
+label2 = tk.Label(master = frame1,text = "Expression:")
+#label 3 is not bound to frame3
+label3 = tk.Label(master = frameright,text = "History:",width = 14)
+answer = tk.Label(master = frame1,text = "")
+expr = tk.Label(master = frame1,text = "")
+
+#This configures the frame with the original buttons
+frame2.rowconfigure([0,1,2,3,4],weight = 1, minsize = 75)
+frame2.columnconfigure([0,1,2,3,4],weight = 1, minsize = 75)
+
+#buttons
+butvar = tk.Button(master=frame2, text = "Variable", command = variables)
+butsolve = tk.Button(master=frame2, text = "Solve", command = solve)
+butperiod = tk.Button(master=frame2, text = ".", command = add_period)
+bute = tk.Button(master=frame2, text = "e", command = add_e)
+but1 = tk.Button(master = frame2, text = "1",command = add_1)
+but2 = tk.Button(master = frame2, text = "2",command = add_2)
+but3 = tk.Button(master = frame2, text = "3",command = add_3)
+but4 = tk.Button(master = frame2, text = "4",command = add_4)
+but5 = tk.Button(master = frame2, text = "5",command = add_5)
+but6 = tk.Button(master = frame2, text = "6",command = add_6)
+but7 = tk.Button(master = frame2, text = "7",command = add_7)
+but8 = tk.Button(master = frame2, text = "8",command = add_8)
+but9 = tk.Button(master = frame2, text = "9",command = add_9)
+butfunc = tk.Button(master = frame2, text = "Functions", command = Functions)
+butparenleft = tk.Button(master = frame2, text = "(", command = parenleft)
+butmult = tk.Button(master = frame2, text = "*", command  = mult)
+butadd = tk.Button(master = frame2, text = "+", command  = add)
+butw = tk.Button(master = frame2, text = "Integrate", command = integrate)
+but0 = tk.Button(master = frame2, text = "0",command = add_0)
+butd = tk.Button(master = frame2, text = "Differentiate",command = differentiate)
+butclear = tk.Button(master = frame2, text = "Clear",command = clear)
+ent = tk.Button(master = frame2, text = "Enter", command = enter)
+butsubtr = tk.Button(master = frame2, text = "-", command = minus)
+butdiv = tk.Button(master = frame2, text = "/", command = divide)
+butgraph = tk.Button(master = frame2, text = "Graph", command = graph)
+
+#This is the order of pack
+frameleft.pack(side = tk.LEFT)
+frameright.pack(side = tk.RIGHT)
+frame1.pack()
+label2.pack()
+expr.pack()
+label.pack()
+answer.pack()
+
+frame2.pack()
+
+label3.pack()
+frame3.pack()
+
+
+#This is the grid loop
+b = [butparenleft, butfunc, butgraph, butclear, butdiv, butvar, but1, but2, but3, butmult, butsolve, but4, but5, but6, butsubtr,butperiod, but7, but8, but9, butadd,bute, butw, but0, butd, ent]
+i = 0
+for k in range(5):
+    for c in range(5):
+        b[i].grid(row = k, column = c, sticky = "nsew")
+        i += 1
+
+window.bind("<BackSpace>",backspace)
+window.bind("<Key>", key)
+
+window.mainloop()

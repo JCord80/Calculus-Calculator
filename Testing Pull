@@ -10,3 +10,100 @@ for x in range(1,1200000,1):
     Reimannsum += y*0.00001
 
 print(Reimannsum)
+
+
+# #this is extra from the ui tab, didnt for sure want to delete
+#     def add_x():
+#         expr1["text"] = expr1["text"]+"x"
+#     def add_y():
+#         expr1["text"] = expr1["text"]+"y"
+#     def add_period():
+#         expr1["text"] = expr1["text"]+"z"
+#     def add_e():
+#         expr1["text"] = expr1["text"]+"e"
+#     def add_1():
+#         expr1["text"] = expr1["text"]+"1"
+#     def add_2():
+#         expr1["text"] = expr1["text"]+"2"
+#     def add_3():
+#         expr1["text"] = expr1["text"]+"3"
+#     def add_4():
+#         expr1["text"] = expr1["text"]+"4"
+#     def add_5():
+#         expr1["text"] = expr1["text"]+"5"
+#     def add_6():
+#         expr1["text"] = expr1["text"]+"6"
+#     def add_7():
+#         expr1["text"] = expr1["text"]+"7"
+#     def add_8():
+#         expr1["text"] = expr1["text"]+"8"
+#     def add_9():
+#         expr1["text"] = expr1["text"]+"9"
+#     def add_0():
+#         expr1["text"] = expr1["text"]+"0"
+#     def mult():
+#         expr1["text"] = expr1["text"]+"*"
+#     def add_pi():
+#         expr1["text"] = expr1["text"]+"π"
+#     def add():
+#         expr1["text"] = expr1["text"]+"+"
+#     def minus():
+#         expr1["text"] = expr1["text"]+"-"
+#     def divide():
+#         expr1["text"] = expr1["text"]+"/"
+
+
+    # win3 = tk.Tk()
+    
+    # def add_x():
+    #     expr1["text"] = expr1["text"]+"x"
+    # def add_y():
+    #     expr1["text"] = expr1["text"]+"y"
+    # def add_period():
+    #     expr1["text"] = expr1["text"]+"z"
+    # def add_e():
+    #     expr1["text"] = expr1["text"]+"e"
+    # def add_1():
+    #     expr1["text"] = expr1["text"]+"1"
+    # def add_2():
+    #     expr1["text"] = expr1["text"]+"2"
+    # def add_3():
+    #     expr1["text"] = expr1["text"]+"3"
+    # def add_4():
+    #     expr1["text"] = expr1["text"]+"4"
+    # def add_5():
+    #     expr1["text"] = expr1["text"]+"5"
+    # def add_6():
+    #     expr1["text"] = expr1["text"]+"6"
+    # def add_7():
+    #     expr1["text"] = expr1["text"]+"7"
+    # def add_8():
+    #     expr1["text"] = expr1["text"]+"8"
+    # def add_9():
+    #     expr1["text"] = expr1["text"]+"9"
+    # def add_0():
+    #     expr1["text"] = expr1["text"]+"0"
+    # def mult():
+    #     expr1["text"] = expr1["text"]+"*"
+    # def add_pi():
+    #     expr1["text"] = expr1["text"]+"π"
+    # def add():
+    #     expr1["text"] = expr1["text"]+"+"
+    # def minus():
+    #     expr1["text"] = expr1["text"]+"-"
+    # def divide():
+    #     expr1["text"] = expr1["text"]+"/"
+    
+    # def enter():
+    #     x = sp.symbols('x')
+    #     function = sp.sympify(expr1["text"])
+    #     global answer
+    #     answer["text"] = sp.integrate(function,(x,bound1["text"],bound2["text"]))
+    #     history = hist(expr1["text"],answer["text"])
+    #     history.pack()
+    #     winint.quit()
+    #     winint.destroy()
+
+    # Title = tk.Label(master = win3, text = "Enter the Argument of the Function:")
+    # argument = tk.Label(master = win3, text = "")
+    # arguments = tk.Frame(master = win3)

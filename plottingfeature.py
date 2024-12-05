@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def graph():
-    x, y, t, r, theta = sp.symbols('x y t r theta')
+    x, y, t, r, θ = sp.symbols('x y t r θ')
     
     coordinates = input("What type of coordinates would you like to graph? ")
     if coordinates == "cartesian":
@@ -79,11 +79,11 @@ def graph():
         plt.show()
     if coordinates == "polar":
         rexpression = sp.sympify(input("r="))
-        rfunction = sp.lambdify(theta, rexpression)
-        thetavals = np.linspace(0, 100 * np.pi, 10000)
-        rvals = rfunction(thetavals)
-        xvals = rvals * np.cos(thetavals)
-        yvals = rvals * np.sin(thetavals)
+        rfunction = sp.lambdify(θ, rexpression)
+        θvals = np.linspace(0, 100 * np.pi, 10000)
+        rvals = rfunction(θvals)
+        xvals = rvals * np.cos(θvals)
+        yvals = rvals * np.sin(θvals)
         xmin = float(input("Least x-value: "))
         xmax = float(input("Greatest x-value: "))
         ymin = float(input("Least y-value: "))
