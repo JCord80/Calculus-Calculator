@@ -14,4 +14,4 @@ def differentiate():
     function = sp.sympify(input(""))
     dx = sp.diff(function, x)
     print(dx)
-# differentiate()
+differentiate()
