@@ -15,3 +15,37 @@ def differentiate():
     dx = sp.diff(function, x)
     print(dx)
 differentiate()
+
+
+#doesnt work quite right yet
+
+    # def input():
+    #     nonlocal xmin, xmax, ymin, ymax, zmin, zmax
+    #     xmin = entrya.get()
+    #     xmax = entryb.get()
+    #     ymin = entryc.get()
+    #     ymax = entryd.get()
+    #     if "z" in expr["text"]:
+    #         zmin = entrye.get()
+    #         zmax = entryf.get() 
+
+    # bounds = tk.Tk()
+    # entrya = tk.Entry(master = bounds, text = "Least x Value")
+    # entryb = tk.Entry(master = bounds, text = "Greatest x Value")
+    # entryc = tk.Entry(master = bounds, text = "Least y Value")
+    # entryd = tk.Entry(master = bounds, text = "Greatest y Value")
+    # if "z" in expr["text"]:
+    #     entrye = tk.Entry(master = bounds, text = "Least z Value")
+    #     entryf = tk.Entry(master = bounds, text = "Greatest z Value")
+    # inputb = tk.Button(master = bounds, text = "Enter", command = input)
+
+    # entrya.pack()
+    # entryb.pack()
+    # entryc.pack()
+    # entryd.pack()
+    # if "z" in expr["text"]:
+    #     entrye.pack()
+    #     entryf.pack()
+    # inputb.pack()
+    
+    # bounds.mainloop()

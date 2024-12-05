@@ -62,6 +62,10 @@ def divide():
     expr["text"] = expr["text"]+"/"
 def add_pi():
     expr["text"] = expr["text"]+"π"
+def exp():
+    expr["text"] = expr["text"]+"^"
+def sqrt():
+    expr["text"] = expr["text"]+"√("
 def backspace(event):
     expr["text"] = expr["text"][0:len(expr["text"])-1]
 def clear():
@@ -75,13 +79,27 @@ def key(event):
         expr["text"] += event.char
 
 def differentiate():
+    if "^" in expr["text"]:
+        expr["text"]=expr["text"].replace("^", "**")
+    if "√" in expr["text"]:
+        expr["text"]=expr["text"].replace("√", "sqrt")
     if ("e") in expr["text"]:
         expr["text"]=expr["text"].replace("e", "E")
+    if "π" in expr["text"]:
+        expr["text"]=expr["text"].replace("π","pi")
     function = sp.sympify(expr["text"])
     answer["text"] = sp.diff(function)
     expr["text"] = ""
 
 def solve():
+    if "^" in expr["text"]:
+        expr["text"]=expr["text"].replace("^", "**")
+    if "√" in expr["text"]:
+        expr["text"]=expr["text"].replace("√", "sqrt")
+    if ("e") in expr["text"]:
+        expr["text"]=expr["text"].replace("e", "E")
+    if "π" in expr["text"]:
+        expr["text"]=expr["text"].replace("π","pi")
     x = sp.symbols('x')
     equation = sp.Eq(sp.sympify(expr["text"]), sp.sympify("0"))
     solution = sp.solve(equation, x)
@@ -93,6 +111,14 @@ def solve():
         answer["text"] = "No solution"
 
 def eval():
+    if "^" in expr["text"]:
+        expr["text"]=expr["text"].replace("^", "**")
+    if "√" in expr["text"]:
+        expr["text"]=expr["text"].replace("√", "sqrt")
+    if ("e") in expr["text"]:
+        expr["text"]=expr["text"].replace("e", "E")
+    if "π" in expr["text"]:
+        expr["text"]=expr["text"].replace("π","pi")
     win5 = tk.Tk()
     def enter():
         x = sp.symbols('x')
@@ -115,7 +141,12 @@ def eval():
     enterbutton.pack()
     win5.mainloop()
 
+#Main Window Enter
 def enter():
+    if "^" in expr["text"]:
+        expr["text"]=expr["text"].replace("^", "**")
+    if "√" in expr["text"]:
+        expr["text"]=expr["text"].replace("√", "sqrt")
     if ("e") in expr["text"]:
         expr["text"]=expr["text"].replace("e", "E")
     if "π" in expr["text"]:
@@ -228,53 +259,22 @@ def Functions():
 #Graph Button Code
 
 def graph():
-
+    if "^" in expr["text"]:
+        expr["text"]=expr["text"].replace("^", "**")
+    if "√" in expr["text"]:
+        expr["text"]=expr["text"].replace("√", "sqrt")
     if ("e") in expr["text"]:
         expr["text"]=expr["text"].replace("e", "E")
     if "π" in expr["text"]:
         expr["text"]=expr["text"].replace("π","pi")
-
     x, y, t, r, θ = sp.symbols('x y t r θ')
     
-#doesnt work quite right yet
-
-    # def input():
-    #     nonlocal xmin, xmax, ymin, ymax, zmin, zmax
-    #     xmin = entrya.get()
-    #     xmax = entryb.get()
-    #     ymin = entryc.get()
-    #     ymax = entryd.get()
-    #     if "z" in expr["text"]:
-    #         zmin = entrye.get()
-    #         zmax = entryf.get() 
-
-    # bounds = tk.Tk()
-    # entrya = tk.Entry(master = bounds, text = "Least x Value")
-    # entryb = tk.Entry(master = bounds, text = "Greatest x Value")
-    # entryc = tk.Entry(master = bounds, text = "Least y Value")
-    # entryd = tk.Entry(master = bounds, text = "Greatest y Value")
-    # if "z" in expr["text"]:
-    #     entrye = tk.Entry(master = bounds, text = "Least z Value")
-    #     entryf = tk.Entry(master = bounds, text = "Greatest z Value")
-    # inputb = tk.Button(master = bounds, text = "Enter", command = input)
-
-    # entrya.pack()
-    # entryb.pack()
-    # entryc.pack()
-    # entryd.pack()
-    # if "z" in expr["text"]:
-    #     entrye.pack()
-    #     entryf.pack()
-    # inputb.pack()
-    
-    # bounds.mainloop()
-
     if ("y" not in expr["text"]) and ("θ" not in expr["text"]):
         function_singlevar = expr["text"]
-        xmin = -10
-        xmax = 10
-        ymin = -10
-        ymax = 10
+        xmin = -20
+        xmax = 20
+        ymin = -20
+        ymax = 20
         xvals = np.linspace(xmin, xmax, 10000000)
         lambdified = sp.lambdify(x, function_singlevar)
         yvals = lambdified(xvals)
@@ -289,12 +289,12 @@ def graph():
         plt.show()
     elif ("y" in expr["text"]) and ("x" in expr["text"]) and ("θ" not in expr["text"]):
         function_multivar = expr["text"]
-        xmin = -10
-        xmax = 10
-        ymin = -10
-        ymax = 10
-        zmin = -10
-        zmax = 10
+        xmin = -20
+        xmax = 20
+        ymin = -20
+        ymax = 20
+        zmin = -20
+        zmax = 20
         xvals = np.linspace(xmin, xmax, 100)
         yvals = np.linspace(ymin, ymax, 100)
         xmesh, ymesh = np.meshgrid(xvals, yvals)
@@ -317,10 +317,10 @@ def graph():
         rvals = rfunction(θvals)
         xvals = rvals * np.cos(θvals)
         yvals = rvals * np.sin(θvals)
-        xmin = float(input("Least x-value: "))
-        xmax = float(input("Greatest x-value: "))
-        ymin = float(input("Least y-value: "))
-        ymax = float(input("Greatest y-value: "))
+        xmin = -5
+        xmax = 5
+        ymin = -5
+        ymax = 5
         plt.figure(figsize=(10, 10))
         plt.plot(xvals, yvals)
         plt.xlim(xmin, xmax)
@@ -382,6 +382,10 @@ def integrate():
         expr1["text"] = expr1["text"]+")"
 
     def enter():
+        if "^" in expr["text"]:
+            expr["text"]=expr["text"].replace("^", "**")
+        if "√" in expr["text"]:
+            expr["text"]=expr["text"].replace("√", "sqrt")
         if ("e") in expr["text"]:
             expr["text"]=expr["text"].replace("e", "E")
         if "π" in expr["text"]:
@@ -405,6 +409,14 @@ def integrate():
             winint.destroy()
 
     def bound():
+        if "^" in expr["text"]:
+            expr["text"]=expr["text"].replace("^", "**")
+        if "√" in expr["text"]:
+            expr["text"]=expr["text"].replace("√", "sqrt")
+        if ("e") in expr["text"]:
+            expr["text"]=expr["text"].replace("e", "E")
+        if "π" in expr["text"]:
+            expr["text"]=expr["text"].replace("π","pi")
         def lower():
             x = entrya.get()
             bound1["text"] = x
@@ -499,30 +511,30 @@ def integrate():
     nums.columnconfigure([0,1,2,3],weight = 1, minsize = 75)
 
 
-    butx = tk.Button(master=nums, text = "x", command = add_x)
-    butclea = tk.Button(master=nums, text = "Clear", command = clear)
-    butperiod = tk.Button(master=nums, text = ".", command = add_period)
-    bute = tk.Button(master=nums, text = "e", command = add_e)
-    but1 = tk.Button(master = nums, text = "1",command = add_1)
-    but2 = tk.Button(master = nums, text = "2",command = add_2)
-    but3 = tk.Button(master = nums, text = "3",command = add_3)
-    but4 = tk.Button(master = nums, text = "4",command = add_4)
-    but5 = tk.Button(master = nums, text = "5",command = add_5)
-    but6 = tk.Button(master = nums, text = "6",command = add_6)
-    but7 = tk.Button(master = nums, text = "7",command = add_7)
-    but8 = tk.Button(master = nums, text = "8",command = add_8)
-    but9 = tk.Button(master = nums, text = "9",command = add_9)
-    but0 = tk.Button(master = nums, text = "0",command = add_0)
-    butsubtr = tk.Button(master = nums, text = "-", command = minus)
-    butdiv = tk.Button(master = nums, text = "/", command = divide)
-    butmult = tk.Button(master = nums, text = "*", command  = mult)
-    butadd = tk.Button(master = nums, text = "+", command  = add)
-    butpi = tk.Button(master = nums,text = "π",command = add_pi)
-    butenter = tk.Button(master = nums, text = "Enter",command = enter)
-    butbounds = tk.Button(master = nums, text = "Bounds",command = bound)
-    butfunc = tk.Button(master = nums, text = "Functions",command = Functions)
-    butparenleft = tk.Button(master = nums, text = "(",command = parenleft)
-    butparenright = tk.Button(master = nums, text = ")",command = parenright)
+    butx = tk.Button(master=nums, text = "x",bg = "green", command = add_x)
+    butclea = tk.Button(master=nums, text = "Clear",bg = "green", command = clear)
+    butperiod = tk.Button(master=nums, text = ".",bg = "green", command = add_period)
+    bute = tk.Button(master=nums, text = "e", bg = "green",command = add_e)
+    but1 = tk.Button(master = nums, text = "1", bg = "red",command = add_1)
+    but2 = tk.Button(master = nums, text = "2", bg = "red",command = add_2)
+    but3 = tk.Button(master = nums, text = "3", bg = "red",command = add_3)
+    but4 = tk.Button(master = nums, text = "4", bg = "red",command = add_4)
+    but5 = tk.Button(master = nums, text = "5", bg = "red",command = add_5)
+    but6 = tk.Button(master = nums, text = "6", bg = "red",command = add_6)
+    but7 = tk.Button(master = nums, text = "7", bg = "red",command = add_7)
+    but8 = tk.Button(master = nums, text = "8", bg = "red",command = add_8)
+    but9 = tk.Button(master = nums, text = "9", bg = "red",command = add_9)
+    but0 = tk.Button(master = nums, text = "0", bg = "red",command = add_0)
+    butsubtr = tk.Button(master = nums, text = "-",bg = "green", command = minus)
+    butdiv = tk.Button(master = nums, text = "/", bg = "green",command = divide)
+    butmult = tk.Button(master = nums, text = "*", bg = "green",command  = mult)
+    butadd = tk.Button(master = nums, text = "+",bg = "green", command  = add)
+    butpi = tk.Button(master = nums,text = "π",bg = "green",command = add_pi)
+    butenter = tk.Button(master = nums, text = "Enter",bg = "green",command = enter)
+    butbounds = tk.Button(master = nums, text = "Bounds",bg = "green",command = bound)
+    butfunc = tk.Button(master = nums, text = "Functions",bg = "green",command = Functions)
+    butparenleft = tk.Button(master = nums, text = "(",bg = "green",command = parenleft)
+    butparenright = tk.Button(master = nums, text = ")",bg = "green",command = parenright)
 
     box.pack()
     intbox.place(x = 45, y = 20)
@@ -560,40 +572,40 @@ answer = tk.Label(master = frame1,text = "")
 expr = tk.Label(master = frame1,text = "")
 
 #This configures the frame with the original buttons
-frame2.rowconfigure([0,1,2,3,4,5],weight = 1, minsize = 75)
-frame2.columnconfigure([0,1,2,3,4],weight = 1, minsize = 75)
+frame2.rowconfigure([0,1,2,3,4,5],weight = 1, minsize = 75,pad = 5)
+frame2.columnconfigure([0,1,2,3,4],weight = 1, minsize = 75, pad = 5)
 
 #buttons
-butvar = tk.Button(master=frame2, text = "Variable", command = variables)
-butsolve = tk.Button(master=frame2, text = "Solve", command = solve)
-butperiod = tk.Button(master=frame2, text = ".", command = add_period)
-bute = tk.Button(master=frame2, text = "e", command = add_e)
-but1 = tk.Button(master = frame2, text = "1",command = add_1)
-but2 = tk.Button(master = frame2, text = "2",command = add_2)
-but3 = tk.Button(master = frame2, text = "3",command = add_3)
-but4 = tk.Button(master = frame2, text = "4",command = add_4)
-but5 = tk.Button(master = frame2, text = "5",command = add_5)
-but6 = tk.Button(master = frame2, text = "6",command = add_6)
-but7 = tk.Button(master = frame2, text = "7",command = add_7)
-but8 = tk.Button(master = frame2, text = "8",command = add_8)
-but9 = tk.Button(master = frame2, text = "9",command = add_9)
-butpi = tk.Button(master = frame2, text = "π",command = add_pi)
-butfunc = tk.Button(master = frame2, text = "Functions", command = Functions)
-butparenleft = tk.Button(master = frame2, text = "(", command = parenleft)
-butparenRight = tk.Button(master = frame2, text = ")", command = parenright)
-butmult = tk.Button(master = frame2, text = "*", command  = mult)
-butadd = tk.Button(master = frame2, text = "+", command  = add)
-butw = tk.Button(master = frame2, text = "Integrate", command = integrate)
-but0 = tk.Button(master = frame2, text = "0",command = add_0)
-butd = tk.Button(master = frame2, text = "Differentiate",command = differentiate)
-butclear = tk.Button(master = frame2, text = "Clear",command = clear)
-ent = tk.Button(master = frame2, text = "Enter", command = enter)
-butsubtr = tk.Button(master = frame2, text = "-", command = minus)
-butdiv = tk.Button(master = frame2, text = "/", command = divide)
-butgraph = tk.Button(master = frame2, text = "Graph", command = graph)
-buteval = tk.Button(master = frame2,text = "Evaluate",command = eval)
-a = tk.Button(master = frame2,text = "c",command = eval)
-b = tk.Button(master = frame2,text = "d",command = eval)
+butexp = tk.Button(master = frame2, text = "^", bg = "green", relief = tk.RIDGE,command = exp)
+butsqrt = tk.Button(master = frame2, text = "√", bg = "green", relief = tk.RIDGE,command = sqrt)
+butvar = tk.Button(master=frame2, text = "Variable",bg = "green", relief = tk.RIDGE,command = variables)
+butsolve = tk.Button(master=frame2, text = "Solve",bg = "green" ,  relief = tk.RIDGE,command = solve)
+butperiod = tk.Button(master=frame2, text = ".", bg = "green",  relief = tk.RIDGE,command = add_period)
+bute = tk.Button(master=frame2, text = "e",bg = "green",   relief = tk.RIDGE,command = add_e)
+but1 = tk.Button(master = frame2, text = "1",bg = "red",  relief = tk.RIDGE, command = add_1)
+but2 = tk.Button(master = frame2, text = "2",bg = "red",  relief = tk.RIDGE,command = add_2)
+but3 = tk.Button(master = frame2, text = "3",bg = "red",  relief = tk.RIDGE,command = add_3)
+but4 = tk.Button(master = frame2, text = "4",bg = "red",  relief = tk.RIDGE,command = add_4)
+but5 = tk.Button(master = frame2, text = "5",bg = "red",  relief = tk.RIDGE,command = add_5)
+but6 = tk.Button(master = frame2, text = "6",bg = "red",  relief = tk.RIDGE,command = add_6)
+but7 = tk.Button(master = frame2, text = "7",bg = "red",  relief = tk.RIDGE,command = add_7)
+but8 = tk.Button(master = frame2, text = "8",bg = "red",  relief = tk.RIDGE,command = add_8)
+but9 = tk.Button(master = frame2, text = "9",bg = "red",  relief = tk.RIDGE,command = add_9)
+butpi = tk.Button(master = frame2, text = "π",bg = "green",  relief = tk.RIDGE,command = add_pi)
+butfunc = tk.Button(master = frame2, text = "Functions",bg = "green",   relief = tk.RIDGE,command = Functions)
+butparenleft = tk.Button(master = frame2, text = "(", bg = "green",  relief = tk.RIDGE,command = parenleft)
+butparenRight = tk.Button(master = frame2, text = ")",bg = "green",  relief = tk.RIDGE, command = parenright)
+butmult = tk.Button(master = frame2, text = "*", bg = "green",  relief = tk.RIDGE,command  = mult)
+butadd = tk.Button(master = frame2, text = "+",bg = "green" ,  relief = tk.RIDGE,command  = add)
+butw = tk.Button(master = frame2, text = "Integrate", bg = "green",  relief = tk.RIDGE,command = integrate)
+but0 = tk.Button(master = frame2, text = "0",bg = "red",  relief = tk.RIDGE,command = add_0)
+butd = tk.Button(master = frame2, text = "Differentiate",bg = "green",  relief = tk.RIDGE,command = differentiate)
+butclear = tk.Button(master = frame2, text = "Clear",bg = "green",  relief = tk.RIDGE,command = clear)
+ent = tk.Button(master = frame2, text = "Enter", bg = "green",  relief = tk.RIDGE,command = enter)
+butsubtr = tk.Button(master = frame2, text = "-",bg = "green",   relief = tk.RIDGE,command = minus)
+butdiv = tk.Button(master = frame2, text = "/",bg = "green",  relief = tk.RIDGE, command = divide)
+butgraph = tk.Button(master = frame2, text = "Graph",bg = "green",   relief = tk.RIDGE,command = graph)
+buteval = tk.Button(master = frame2,text = "Evaluate",bg = "green",  relief = tk.RIDGE,command = eval)
 
 #This is the order of pack
 frameleft.pack(side = tk.LEFT)
@@ -611,7 +623,7 @@ frame3.pack()
 
 
 #This is the grid loop
-b = [butparenRight,buteval,butpi,b,a,butparenleft, butfunc, butgraph, butclear, butdiv, butvar, but1, but2, but3, butmult, butsolve, but4, but5, but6, butsubtr,butperiod, but7, but8, but9, butadd,bute, butw, but0, butd, ent]
+b = [butparenRight,buteval,butpi,butsqrt,butexp,butparenleft, butfunc, butgraph, butclear, butdiv, butvar, but1, but2, but3, butmult, butsolve, but4, but5, but6, butsubtr,butperiod, but7, but8, but9, butadd,bute, butw, but0, butd, ent]
 i = 0
 for k in range(6):
     for c in range(5):
