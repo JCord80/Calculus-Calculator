@@ -15,7 +15,3 @@ def differentiate():
     dx = sp.diff(function, x)
     print(dx)
 differentiate()
-
-
-#stack overflow links
-#https://stackoverflow.com/questions/30685308/how-do-i-change-the-text-size-in-a-label-widget-tkinter
