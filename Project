@@ -88,7 +88,14 @@ def differentiate():
     if "π" in expr["text"]:
         expr["text"]=expr["text"].replace("π","pi")
     function = sp.sympify(expr["text"])
-    answer["text"] = sp.diff(function)
+    try:
+        sp.diff(function)
+    except ValueError:
+        answer["text"] = "Can't Do Partial Derivatives"
+    except:
+        answer["text"] = "Error"
+    else:
+        answer["text"] = sp.diff(function)
     expr["text"] = ""
 
 def solve():
