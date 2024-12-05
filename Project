@@ -50,6 +50,8 @@ def add_0():
     expr["text"] = expr["text"]+"0"
 def parenleft():
     expr["text"] = expr["text"]+"("
+def parenright():
+    expr["text"] = expr["text"]+")"
 def mult():
     expr["text"] = expr["text"]+"*"
 def add():
@@ -58,6 +60,8 @@ def minus():
     expr["text"] = expr["text"]+"-"
 def divide():
     expr["text"] = expr["text"]+"/"
+def add_pi():
+    expr["text"] = expr["text"]+"π"
 def backspace(event):
     expr["text"] = expr["text"][0:len(expr["text"])-1]
 def clear():
@@ -79,14 +83,34 @@ def differentiate():
 
 def solve():
     x = sp.symbols('x')
-    equation = sp.Eq(expr["text"], 0)
+    equation = sp.Eq(sp.sympify(expr["text"]), sp.sympify("0"))
     solution = sp.solve(equation, x)
     if solution:
-        expr["text"]=solution
+        answer["text"]=solution
         history = hist(equation,solution)
         history.pack()
     else:
-        print("No solution")
+        answer["text"] = "No solution"
+
+def eval():
+    win5 = tk.Tk()
+    def enter():
+        y = entryx.get()
+        if "x" in expr["text"]:
+            func = sp.sympify(expr["text"])
+            answer["text"] = str(func(y))
+        elif "x" in answer["text"]:
+            func = sp.sympify(answer["text"])
+            answer["text"] = str(func(y))
+        else:
+            answer["text"]=""
+        win5.destroy()
+    entryx = tk.Entry(master = win5)
+    enterbutton = tk.Button(master = window,text = "Enter", command = enter)
+
+    entryx.pack()
+    enterbutton.pack()
+    win5.mainloop()
 
 def enter():
     if ("e") in expr["text"]:
@@ -123,15 +147,18 @@ def variables():
 
     win4 = tk.Tk()
 
-    theta = tk.Button(master = win4,text = "θ",command = polar, height = 10, width = 10)
-    cartesian = tk.Button(master = win4, text = "x", command = carte, height = 10, width = 10)
-    threeD = tk.Button(master = win4, text="y",command = carte3d, height = 10, width = 10)
+    top = tk.Frame(master = win4)
+
+    theta = tk.Button(master = top,text = "θ",command = polar, height = 10, width = 10)
+    cartesian = tk.Button(master = top, text = "x", command = carte, height = 10, width = 10)
+    threeD = tk.Button(master = top, text="y",command = carte3d, height = 10, width = 10)
     entervariable = tk.Button(master = win4, text = "Enter",command = entervar, height = 5, width = 5)
 
+    top.pack()
     theta.pack(side = tk.LEFT)
     cartesian.pack(side = tk.LEFT)
     threeD.pack(side = tk.RIGHT)
-    entervariable.pack(side = tk.BOTTOM)
+    entervariable.pack()
 
     win4.mainloop()
 
@@ -148,16 +175,16 @@ def Functions():
         saved = "cos("
     def arcsin():
         global saved
-        saved = "arcsin("
+        saved = "asin("
     def tan():
         global saved
         saved = "tan("
     def arccos():
         global saved
-        saved = "arccos("
+        saved = "acos("
     def arctan():
         global saved
-        saved = "arctan("
+        saved = "atan("
     def ln():
         global saved
         saved = "ln("
@@ -176,10 +203,10 @@ def Functions():
 
     butsin = tk.Button(master=nums, text = "sin", command = sin)
     butcos = tk.Button(master=nums, text = "cos", command = cos)
-    butarcsin = tk.Button(master=nums, text = "arcsin", command = arcsin)
-    butarccos = tk.Button(master=nums, text = "arccos", command = arccos)
+    butarcsin = tk.Button(master=nums, text = "asin", command = arcsin)
+    butarccos = tk.Button(master=nums, text = "acos", command = arccos)
     buttan = tk.Button(master = nums, text = "tan",command = tan)
-    butarctan = tk.Button(master = nums, text = "arctan",command = arctan)
+    butarctan = tk.Button(master = nums, text = "atan",command = arctan)
     butln = tk.Button(master = nums, text = "ln",command = ln)
     butlog = tk.Button(master = nums, text = "log",command = log)
     butent = tk.Button(master = nums, text="enter",command = enter)
@@ -310,8 +337,8 @@ def integrate():
     
     def add_x():
         expr1["text"] = expr1["text"]+"x"
-    def add_y():
-        expr1["text"] = expr1["text"]+"y"
+    def clear():
+        expr["text"] = ""
     def add_period():
         expr1["text"] = expr1["text"]+"z"
     def add_e():
@@ -352,6 +379,10 @@ def integrate():
         expr1["text"] = expr1["text"]+")"
 
     def enter():
+        if ("e") in expr["text"]:
+            expr["text"]=expr["text"].replace("e", "E")
+        if "π" in expr["text"]:
+            expr["text"]=expr["text"].replace("π","pi")
         if bound1["text"].isdigit() == True: 
             x = sp.symbols('x')
             function = sp.sympify(expr1["text"])
@@ -402,16 +433,16 @@ def integrate():
             saved = "cos("
         def arcsin():
             global saved
-            saved = "arcsin("
+            saved = "asin("
         def tan():
             global saved
             saved = "tan("
         def arccos():
             global saved
-            saved = "arccos("
+            saved = "acos("
         def arctan():
             global saved
-            saved = "arctan("
+            saved = "atan("
         def ln():
             global saved
             saved = "ln("
@@ -428,10 +459,10 @@ def integrate():
 
         butsin = tk.Button(master=nums, text = "sin", command = sin)
         butcos = tk.Button(master=nums, text = "cos", command = cos)
-        butarcsin = tk.Button(master=nums, text = "arcsin", command = arcsin)
-        butarccos = tk.Button(master=nums, text = "arccos", command = arccos)
+        butarcsin = tk.Button(master=nums, text = "asin", command = arcsin)
+        butarccos = tk.Button(master=nums, text = "acos", command = arccos)
         buttan = tk.Button(master = nums, text = "tan",command = tan)
-        butarctan = tk.Button(master = nums, text = "arctan",command = arctan)
+        butarctan = tk.Button(master = nums, text = "atan",command = arctan)
         butln = tk.Button(master = nums, text = "ln",command = ln)
         butlog = tk.Button(master = nums, text = "log",command = log)
         butent = tk.Button(master = nums, text="enter",command = enter)
@@ -466,7 +497,7 @@ def integrate():
 
 
     butx = tk.Button(master=nums, text = "x", command = add_x)
-    buty = tk.Button(master=nums, text = "y", command = add_y)
+    butclea = tk.Button(master=nums, text = "Clear", command = clear)
     butperiod = tk.Button(master=nums, text = ".", command = add_period)
     bute = tk.Button(master=nums, text = "e", command = add_e)
     but1 = tk.Button(master = nums, text = "1",command = add_1)
@@ -499,7 +530,7 @@ def integrate():
     nums.pack()
 
 #grid tkinter code for integrate window
-    b = [butx,buty,butperiod,bute,but1,but2,but3,but4,but5,but6,but7,but8,but9,but0,butsubtr,butdiv,butmult,butadd,butpi,butenter,butbounds,butfunc,butparenleft,butparenright]
+    b = [butx,butclea,butperiod,bute,but1,but2,but3,but4,but5,but6,but7,but8,but9,but0,butsubtr,butdiv,butmult,butadd,butpi,butenter,butbounds,butfunc,butparenleft,butparenright]
     i = 0
     for k in range(6):
         for c in range(4):
@@ -526,7 +557,7 @@ answer = tk.Label(master = frame1,text = "")
 expr = tk.Label(master = frame1,text = "")
 
 #This configures the frame with the original buttons
-frame2.rowconfigure([0,1,2,3,4],weight = 1, minsize = 75)
+frame2.rowconfigure([0,1,2,3,4,5],weight = 1, minsize = 75)
 frame2.columnconfigure([0,1,2,3,4],weight = 1, minsize = 75)
 
 #buttons
@@ -543,8 +574,10 @@ but6 = tk.Button(master = frame2, text = "6",command = add_6)
 but7 = tk.Button(master = frame2, text = "7",command = add_7)
 but8 = tk.Button(master = frame2, text = "8",command = add_8)
 but9 = tk.Button(master = frame2, text = "9",command = add_9)
+butpi = tk.Button(master = frame2, text = "π",command = add_pi)
 butfunc = tk.Button(master = frame2, text = "Functions", command = Functions)
 butparenleft = tk.Button(master = frame2, text = "(", command = parenleft)
+butparenRight = tk.Button(master = frame2, text = ")", command = parenright)
 butmult = tk.Button(master = frame2, text = "*", command  = mult)
 butadd = tk.Button(master = frame2, text = "+", command  = add)
 butw = tk.Button(master = frame2, text = "Integrate", command = integrate)
@@ -555,6 +588,9 @@ ent = tk.Button(master = frame2, text = "Enter", command = enter)
 butsubtr = tk.Button(master = frame2, text = "-", command = minus)
 butdiv = tk.Button(master = frame2, text = "/", command = divide)
 butgraph = tk.Button(master = frame2, text = "Graph", command = graph)
+buteval = tk.Button(master = frame2,text = "Evaluate",command = eval)
+a = tk.Button(master = frame2,text = "c",command = eval)
+b = tk.Button(master = frame2,text = "d",command = eval)
 
 #This is the order of pack
 frameleft.pack(side = tk.LEFT)
@@ -572,9 +608,9 @@ frame3.pack()
 
 
 #This is the grid loop
-b = [butparenleft, butfunc, butgraph, butclear, butdiv, butvar, but1, but2, but3, butmult, butsolve, but4, but5, but6, butsubtr,butperiod, but7, but8, but9, butadd,bute, butw, but0, butd, ent]
+b = [butparenRight,buteval,butpi,b,a,butparenleft, butfunc, butgraph, butclear, butdiv, butvar, but1, but2, but3, butmult, butsolve, but4, but5, but6, butsubtr,butperiod, but7, but8, but9, butadd,bute, butw, but0, butd, ent]
 i = 0
-for k in range(5):
+for k in range(6):
     for c in range(5):
         b[i].grid(row = k, column = c, sticky = "nsew")
         i += 1
