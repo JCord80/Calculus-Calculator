@@ -95,18 +95,21 @@ def solve():
 def eval():
     win5 = tk.Tk()
     def enter():
-        y = entryx.get()
+        x = sp.symbols('x')
+        y = float(entryx.get())
         if "x" in expr["text"]:
             func = sp.sympify(expr["text"])
-            answer["text"] = str(func(y))
+            f = sp.lambdify(x,func)
+            answer["text"] = str(f(y))
         elif "x" in answer["text"]:
             func = sp.sympify(answer["text"])
-            answer["text"] = str(func(y))
+            f = sp.lambdify(x,func)
+            answer["text"] = str(f(y))
         else:
             answer["text"]=""
         win5.destroy()
     entryx = tk.Entry(master = win5)
-    enterbutton = tk.Button(master = window,text = "Enter", command = enter)
+    enterbutton = tk.Button(master = win5,text = "Enter", command = enter)
 
     entryx.pack()
     enterbutton.pack()
