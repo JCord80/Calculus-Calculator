@@ -14,7 +14,7 @@ def differentiate():
     function = sp.sympify(input(""))
     dx = sp.diff(function, x)
     print(dx)
-differentiate()
+
 
 
 #doesnt work quite right yet
@@ -49,3 +49,6 @@ differentiate()
     # inputb.pack()
     
     # bounds.mainloop()
+
+str = ", , , , , "
+print(str.find(","))
