@@ -79,43 +79,42 @@ def key(event):
         expr["text"] += event.char
 
 def differentiate():
-    if "^" in expr["text"]:
-        expr["text"]=expr["text"].replace("^", "**")
-    if "√" in expr["text"]:
-        expr["text"]=expr["text"].replace("√", "sqrt")
-    if ("e") in expr["text"]:
-        expr["text"]=expr["text"].replace("e", "E")
-    if "π" in expr["text"]:
-        expr["text"]=expr["text"].replace("π","pi")
-    function = sp.sympify(expr["text"])
     try:
-        sp.diff(function)
-    except ValueError:
-        answer["text"] = "Can't Do Partial Derivatives"
-    except:
+        if "^" in expr["text"]:
+            expr["text"]=expr["text"].replace("^", "**")
+        if "√" in expr["text"]:
+            expr["text"]=expr["text"].replace("√", "sqrt")
+        if ("e") in expr["text"]:
+            expr["text"]=expr["text"].replace("e", "E")
+        if "π" in expr["text"]:
+            expr["text"]=expr["text"].replace("π","pi")
+        function = sp.sympify(expr["text"])
+        derivative = sp.diff(function)
+        answer["text"] = str(derivative)
+    except Exception as e:
         answer["text"] = "Error"
-    else:
-        answer["text"] = sp.diff(function)
-    expr["text"] = ""
 
 def solve():
-    if "^" in expr["text"]:
-        expr["text"]=expr["text"].replace("^", "**")
-    if "√" in expr["text"]:
-        expr["text"]=expr["text"].replace("√", "sqrt")
-    if ("e") in expr["text"]:
-        expr["text"]=expr["text"].replace("e", "E")
-    if "π" in expr["text"]:
-        expr["text"]=expr["text"].replace("π","pi")
-    x = sp.symbols('x')
-    equation = sp.Eq(sp.sympify(expr["text"]), sp.sympify("0"))
-    solution = sp.solve(equation, x)
-    if solution:
-        answer["text"]=solution
-        history = hist(equation,solution)
-        history.pack()
-    else:
-        answer["text"] = "No solution"
+    try:
+        if "^" in expr["text"]:
+            expr["text"]=expr["text"].replace("^", "**")
+        if "√" in expr["text"]:
+            expr["text"]=expr["text"].replace("√", "sqrt")
+        if ("e") in expr["text"]:
+            expr["text"]=expr["text"].replace("e", "E")
+        if "π" in expr["text"]:
+            expr["text"]=expr["text"].replace("π","pi")
+        x = sp.symbols('x')
+        equation = sp.Eq(sp.sympify(expr["text"]), sp.sympify("0"))
+        solution = sp.solve(equation, x)
+        if solution:
+            answer["text"]=solution
+            history = hist(equation,solution)
+            history.pack()
+        else:
+            answer["text"] = "No solution"
+    except Exception as e:
+        answer["text"] = "Error"
 
 def eval():
     if "^" in expr["text"]:
@@ -128,6 +127,7 @@ def eval():
         expr["text"]=expr["text"].replace("π","pi")
     win5 = tk.Tk()
     def enter():
+      try:  
         x = sp.symbols('x')
         y = float(entryx.get())
         if "x" in expr["text"]:
@@ -140,6 +140,8 @@ def eval():
             answer["text"] = str(f(y))
         else:
             answer["text"]=""
+      except Exception as e:
+        answer["text"] = "Error"
         win5.destroy()
     entryx = tk.Entry(master = win5)
     enterbutton = tk.Button(master = win5,text = "Enter", command = enter)
@@ -150,25 +152,28 @@ def eval():
 
 #Main Window Enter
 def enter():
-    if "^" in expr["text"]:
-        expr["text"]=expr["text"].replace("^", "**")
-    if "√" in expr["text"]:
-        expr["text"]=expr["text"].replace("√", "sqrt")
-    if ("e") in expr["text"]:
-        expr["text"]=expr["text"].replace("e", "E")
-    if "π" in expr["text"]:
-        expr["text"]=expr["text"].replace("π","pi")
-    save = expr["text"]
-    if "x" in save:
-        answer["text"] = "Can't Evaluate"
-    else:
-        z = sp.symbols('z')
-        y = sp.sympify(save)
-        func = sp.lambdify(z,y)
-        answer["text"] = str(func(1))
-        expr["text"] = ""
-        history = hist(save,answer["text"])
-        history.pack()
+    try:
+        if "^" in expr["text"]:
+            expr["text"]=expr["text"].replace("^", "**")
+        if "√" in expr["text"]:
+            expr["text"]=expr["text"].replace("√", "sqrt")
+        if ("e") in expr["text"]:
+            expr["text"]=expr["text"].replace("e", "E")
+        if "π" in expr["text"]:
+            expr["text"]=expr["text"].replace("π","pi")
+        save = expr["text"]
+        if "x" in save:
+            answer["text"] = "Can't Evaluate"
+        else:
+            z = sp.symbols('z')
+            y = sp.sympify(save)
+            func = sp.lambdify(z,y)
+            answer["text"] = str(func(1))
+            expr["text"] = ""
+            history = hist(save,answer["text"])
+            history.pack()
+    except Exception as e:
+        answer["text"] = "Error"
 
 def variables():
 
@@ -275,71 +280,73 @@ def graph():
     if "π" in expr["text"]:
         expr["text"]=expr["text"].replace("π","pi")
     x, y, t, r, θ = sp.symbols('x y t r θ')
-    
-    if ("y" not in expr["text"]) and ("θ" not in expr["text"]):
-        function_singlevar = expr["text"]
-        xmin = -20
-        xmax = 20
-        ymin = -20
-        ymax = 20
-        xvals = np.linspace(xmin, xmax, 10000000)
-        lambdified = sp.lambdify(x, function_singlevar)
-        yvals = lambdified(xvals)
-        yvals = np.where(np.abs(yvals) > 200, np.nan, yvals)
-        plt.figure(figsize=(8, 6))
-        plt.plot(xvals, yvals)
-        plt.xlim(xmin, xmax)
-        plt.ylim(ymin, ymax)
-        plt.title("Graph of the Function")
-        plt.xlabel("x")
-        plt.ylabel("f(x)")
-        plt.grid(True)
-        plt.show()
-    elif ("y" in expr["text"]) and ("x" in expr["text"]) and ("θ" not in expr["text"]):
-        function_multivar = expr["text"]
-        xmin = -20
-        xmax = 20
-        ymin = -20
-        ymax = 20
-        zmin = -20
-        zmax = 20
-        xvals = np.linspace(xmin, xmax, 100)
-        yvals = np.linspace(ymin, ymax, 100)
-        xmesh, ymesh = np.meshgrid(xvals, yvals)
-        lambdified = sp.lambdify((x, y), function_multivar)
-        zvals = lambdified(xmesh, ymesh)
-        zvals = np.where(np.abs(zvals) > 200, np.nan, zvals)
-        fig = plt.figure(figsize=(10, 8))
-        ax = fig.add_subplot(111, projection='3d')
-        ax.plot_surface(xmesh, ymesh, zvals)
-        ax.set_xlim(xmin, xmax)
-        ax.set_ylim(ymin, ymax)
-        ax.set_zlim(zmin, zmax)
-        ax.set_xlabel("x")
-        ax.set_ylabel("y")
-        ax.set_zlabel("z")
-        plt.show()
-    elif ("y" not in expr["text"]) and ("x" not in expr["text"]) and ("θ" in expr["text"]):
-        rexpression = sp.sympify(expr["text"])
-        rfunction = sp.lambdify(θ, rexpression)
-        θvals = np.linspace(0, 100 * np.pi, 10000)
-        rvals = rfunction(θvals)
-        xvals = rvals * np.cos(θvals)
-        yvals = rvals * np.sin(θvals)
-        xmin = -5
-        xmax = 5
-        ymin = -5
-        ymax = 5
-        plt.figure(figsize=(10, 10))
-        plt.plot(xvals, yvals)
-        plt.xlim(xmin, xmax)
-        plt.ylim(ymin, ymax)
-        plt.xlabel('x')
-        plt.ylabel('y')
-        plt.grid(True)
-        plt.show()  
-    else:
-        answer["text"] = "Can't graph with unmatched vars or error"      
+    try:
+        if ("y" not in expr["text"]) and ("θ" not in expr["text"]):
+            function_singlevar = expr["text"]
+            xmin = -20
+            xmax = 20
+            ymin = -20
+            ymax = 20
+            xvals = np.linspace(xmin, xmax, 10000000)
+            lambdified = sp.lambdify(x, function_singlevar)
+            yvals = lambdified(xvals)
+            yvals = np.where(np.abs(yvals) > 200, np.nan, yvals)
+            plt.figure(figsize=(8, 6))
+            plt.plot(xvals, yvals)
+            plt.xlim(xmin, xmax)
+            plt.ylim(ymin, ymax)
+            plt.title("Graph of the Function")
+            plt.xlabel("x")
+            plt.ylabel("f(x)")
+            plt.grid(True)
+            plt.show()
+        elif ("y" in expr["text"]) and ("x" in expr["text"]) and ("θ" not in expr["text"]):
+            function_multivar = expr["text"]
+            xmin = -20
+            xmax = 20
+            ymin = -20
+            ymax = 20
+            zmin = -20
+            zmax = 20
+            xvals = np.linspace(xmin, xmax, 100)
+            yvals = np.linspace(ymin, ymax, 100)
+            xmesh, ymesh = np.meshgrid(xvals, yvals)
+            lambdified = sp.lambdify((x, y), function_multivar)
+            zvals = lambdified(xmesh, ymesh)
+            zvals = np.where(np.abs(zvals) > 200, np.nan, zvals)
+            fig = plt.figure(figsize=(10, 8))
+            ax = fig.add_subplot(111, projection='3d')
+            ax.plot_surface(xmesh, ymesh, zvals)
+            ax.set_xlim(xmin, xmax)
+            ax.set_ylim(ymin, ymax)
+            ax.set_zlim(zmin, zmax)
+            ax.set_xlabel("x")
+            ax.set_ylabel("y")
+            ax.set_zlabel("z")
+            plt.show()
+        elif ("y" not in expr["text"]) and ("x" not in expr["text"]) and ("θ" in expr["text"]):
+            rexpression = sp.sympify(expr["text"])
+            rfunction = sp.lambdify(θ, rexpression)
+            θvals = np.linspace(0, 100 * np.pi, 10000)
+            rvals = rfunction(θvals)
+            xvals = rvals * np.cos(θvals)
+            yvals = rvals * np.sin(θvals)
+            xmin = -5
+            xmax = 5
+            ymin = -5
+            ymax = 5
+            plt.figure(figsize=(10, 10))
+            plt.plot(xvals, yvals)
+            plt.xlim(xmin, xmax)
+            plt.ylim(ymin, ymax)
+            plt.xlabel('x')
+            plt.ylabel('y')
+            plt.grid(True)
+            plt.show()  
+        else:
+            answer["text"] = "Can't graph with unmatched vars or error"
+    except Exception as e:
+        answer["text"] = "Error"     
 
 #Integrate Function, easily the largest
 
@@ -391,31 +398,34 @@ def integrate():
         expr1["text"] = expr1["text"]+")"
 
     def enter():
-        if "^" in expr["text"]:
-            expr["text"]=expr["text"].replace("^", "**")
-        if "√" in expr["text"]:
-            expr["text"]=expr["text"].replace("√", "sqrt")
-        if ("e") in expr["text"]:
-            expr["text"]=expr["text"].replace("e", "E")
-        if "π" in expr["text"]:
-            expr["text"]=expr["text"].replace("π","pi")
-        if bound1["text"].isdigit() == True: 
-            x = sp.symbols('x')
-            function = sp.sympify(expr1["text"])
-            global answer
-            answer["text"] = sp.integrate(function,(x,bound1["text"],bound2["text"]))
-            history = hist(expr1["text"],answer["text"])
-            history.pack()
-            winint.quit()
-            winint.destroy()
-        else:
-            x = sp.symbols('x')
-            function = sp.sympify(expr1["text"])
-            answer["text"] = sp.integrate(function)
-            history = hist(expr1["text"],answer["text"])
-            history.pack()
-            winint.quit()
-            winint.destroy()
+        try:
+            if "^" in expr["text"]:
+                expr["text"]=expr["text"].replace("^", "**")
+            if "√" in expr["text"]:
+                expr["text"]=expr["text"].replace("√", "sqrt")
+            if ("e") in expr["text"]:
+                expr["text"]=expr["text"].replace("e", "E")
+            if "π" in expr["text"]:
+                expr["text"]=expr["text"].replace("π","pi")
+            if bound1["text"].isdigit() == True: 
+                x = sp.symbols('x')
+                function = sp.sympify(expr1["text"])
+                global answer
+                answer["text"] = sp.integrate(function,(x,bound1["text"],bound2["text"]))
+                history = hist(expr1["text"],answer["text"])
+                history.pack()
+                winint.quit()
+                winint.destroy()
+            else:
+                x = sp.symbols('x')
+                function = sp.sympify(expr1["text"])
+                answer["text"] = sp.integrate(function)
+                history = hist(expr1["text"],answer["text"])
+                history.pack()
+                winint.quit()
+                winint.destroy()
+        except Exception as e:
+            answer["text"] = "Error"
 
     def bound():
         if "^" in expr["text"]:
