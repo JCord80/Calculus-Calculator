@@ -95,8 +95,21 @@ def differentiate():
         function = sp.sympify(expr["text"])
         derivative = sp.diff(function)
         answer["text"] = str(derivative)
+        if "**" in answer["text"]:
+            answer["text"]=answer["text"].replace("**", "^")
+        if "sqrt" in answer["text"]:
+            answer["text"]=answer["text"].replace("sqrt(", "√(")
+        if ("E") in answer["text"]:
+            answer["text"]=answer["text"].replace("E", "e")
+        if "pi" in answer["text"]:
+            answer["text"]=answer["text"].replace("pi","π")
+        if "log" in answer["text"]:
+            answer["text"]=answer["text"].replace("log(","ln(")
+        history = hist(expr["text"],answer["text"])
+        history.pack()
     except Exception as e:
         answer["text"] = "Error"
+
 
 def solve():
     try:
@@ -115,6 +128,16 @@ def solve():
         solution = sp.solve(equation, x)
         if solution:
             answer["text"]=solution
+            if "**" in answer["text"]:
+                answer["text"]=answer["text"].replace("**", "^")
+            if "sqrt" in answer["text"]:
+                answer["text"]=answer["text"].replace("sqrt(", "√(")
+            if ("E") in answer["text"]:
+                answer["text"]=answer["text"].replace("E", "e")
+            if "pi" in answer["text"]:
+                answer["text"]=answer["text"].replace("pi","π")
+            if "log" in answer["text"]:
+                answer["text"]=answer["text"].replace("log(","ln(")
             history = hist(equation,solution)
             history.pack()
         else:
@@ -148,9 +171,22 @@ def eval():
             answer["text"] = str(f(y))
         else:
             answer["text"]=""
+        if "**" in answer["text"]:
+            answer["text"]=answer["text"].replace("**", "^")
+        if "sqrt" in answer["text"]:
+            answer["text"]=answer["text"].replace("sqrt(", "√(")
+        if ("E") in answer["text"]:
+            answer["text"]=answer["text"].replace("E", "e")
+        if "pi" in answer["text"]:
+            answer["text"]=answer["text"].replace("pi","π")
+        if "log" in answer["text"]:
+            answer["text"]=answer["text"].replace("log(","ln(")
+        history = hist(expr["text"],answer["text"])
+        history.pack()
       except Exception as e:
         answer["text"] = "Error"
         win5.destroy()
+
     entryx = tk.Entry(master = win5)
     enterbutton = tk.Button(master = win5,text = "Enter", command = enter)
 
@@ -180,10 +216,21 @@ def enter():
             func = sp.lambdify(z,y)
             answer["text"] = str(func(1))
             expr["text"] = ""
+            if "**" in answer["text"]:
+                answer["text"]=answer["text"].replace("**", "^")
+            if "sqrt" in answer["text"]:
+                answer["text"]=answer["text"].replace("sqrt(", "√(")
+            if ("E") in answer["text"]:
+                answer["text"]=answer["text"].replace("E", "e")
+            if "pi" in answer["text"]:
+                answer["text"]=answer["text"].replace("pi","π")
+            if "log" in answer["text"]:
+                answer["text"]=answer["text"].replace("log(","ln(")
             history = hist(save,answer["text"])
             history.pack()
     except Exception as e:
         answer["text"] = "Error"
+
 
 def variables():
 
@@ -434,6 +481,16 @@ def integrate():
                 x = sp.symbols('x')
                 function = sp.sympify(expr1["text"])
                 answer["text"] = str(sp.integrate(function,x))+" + C"
+                if "**" in answer["text"]:
+                    answer["text"]=answer["text"].replace("**", "^")
+                if "sqrt" in answer["text"]:
+                    answer["text"]=answer["text"].replace("sqrt(", "√(")
+                if ("E") in answer["text"]:
+                    answer["text"]=answer["text"].replace("E", "e")
+                if "pi" in answer["text"]:
+                    answer["text"]=answer["text"].replace("pi","π")
+                if "log" in answer["text"]:
+                    answer["text"]=answer["text"].replace("log(","ln(")
                 history = hist(expr1["text"],answer["text"])
                 history.pack()
                 winint.quit()
