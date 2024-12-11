@@ -14,8 +14,8 @@ class hist(tk.Label):
         self.answer = answer
 
     def pack(self):
-        self.label1 = tk.Label(master = frame3, text = f"{self.expression}",bg = "white",height = 3, width = 14)
-        self.label2 = tk.Label(master = frame3, text = f"{self.answer}", bg = "white",height = 3, width = 14)
+        self.label1 = tk.Label(master = frame3, text = f"{self.expression}",bg = "white",height = 3)
+        self.label2 = tk.Label(master = frame3, text = f"{self.answer}", bg = "white",height = 3)
         self.label1.config(font = ("Bitstream Charter",13))  
         self.label2.config(font = ("Bitstream Charter",10))      
         self.label1.pack()
@@ -128,20 +128,20 @@ def solve():
         solution = sp.solve(equation, x)
         if solution:
             answer["text"]=solution
-            if "**" in answer["text"]:
-                answer["text"]=answer["text"].replace("**", "^")
-            if "sqrt" in answer["text"]:
-                answer["text"]=answer["text"].replace("sqrt(", "√(")
-            if ("E") in answer["text"]:
-                answer["text"]=answer["text"].replace("E", "e")
-            if "pi" in answer["text"]:
-                answer["text"]=answer["text"].replace("pi","π")
-            if "log" in answer["text"]:
-                answer["text"]=answer["text"].replace("log(","ln(")
             history = hist(equation,solution)
             history.pack()
         else:
             answer["text"] = "No solution"
+        if "**" in answer["text"]:
+            answer["text"]=answer["text"].replace("**", "^")
+        if "sqrt" in answer["text"]:
+            answer["text"]=answer["text"].replace("sqrt(", "√(")
+        if ("E") in answer["text"]:
+            answer["text"]=answer["text"].replace("E", "e")
+        if "pi" in answer["text"]:
+            answer["text"]=answer["text"].replace("pi","π")
+        if "log" in answer["text"]:
+            answer["text"]=answer["text"].replace("log(","ln(")
     except Exception as e:
         answer["text"] = "Error"
 
@@ -648,7 +648,7 @@ def integrate():
 
 #These are the organizer Frames for the main window
 frameleft = tk.Frame(master = window,bg = "white")
-frameright = tk.Frame(master = window,bg = "white")
+frameright = tk.Frame(master = window,bg = "white", width = 14)
 framereallyright = tk.Frame(master = window, width = 150,bg = "white")
 
 #These are the sub-frames with data
